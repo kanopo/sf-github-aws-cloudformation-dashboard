@@ -1,6 +1,6 @@
 const Page = () =>  {
   return (
-    <div>home</div>
+    <div>{process.env.GITHUB_CLIENT_ID}</div>
   )
 }
 
