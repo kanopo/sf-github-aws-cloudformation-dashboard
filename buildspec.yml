@@ -1,4 +1,8 @@
 version: 0.2
+env:
+  secrets-manager:
+    GITHUB_CLIENT_ID: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_ID"
+    GITHUB_CLIENT_SECRET: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_SECRET"
 
 phases:
   pre_build:
@@ -10,10 +14,6 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
-    env:
-      secrets-manager:
-        GITHUB_CLIENT_ID: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_ID"
-        GITHUB_CLIENT_SECRET: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_SECRET"
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
