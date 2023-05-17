@@ -12,6 +12,12 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - env:
+        secret-manager:
+          GITHUB_CLIENT_ID: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_ID"
+      - env:
+        secret-manager:
+          GITHUB_CLIENT_SECRET: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_SECRET"
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest ./dashboard
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
