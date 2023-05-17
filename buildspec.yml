@@ -10,14 +10,12 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
+    env:
+      secrets-manager:
+        GITHUB_CLIENT_ID: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_ID"
+        GITHUB_CLIENT_SECRET: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_SECRET"
     commands:
       - echo Build started on `date`
-      - env:
-        secrets-manager:
-          GITHUB_CLIENT_ID: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_ID"
-      - env:
-        secrets-manager:
-          GITHUB_CLIENT_SECRET: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_SECRET"
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest ./dashboard
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
