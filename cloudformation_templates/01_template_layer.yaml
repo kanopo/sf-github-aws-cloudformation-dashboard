@@ -293,6 +293,10 @@ Resources:
               ContainerPort: 3306
               HostPort: 3306
               Protocol: http
+            - AppProtocol: http
+              ContainerPort: 22
+              HostPort: 22
+              Protocol: tcp
           Environment:
             - Name: PORT
               Value: 3000
