@@ -15,7 +15,7 @@ Parameters:
   pEnableExecute:
     Description: Enable access to FARGATE containers
     Type: String
-    Default: false
+    Default: true
     AllowedValues:
       - true
       - false
