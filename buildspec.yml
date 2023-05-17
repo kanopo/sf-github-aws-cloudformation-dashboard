@@ -20,7 +20,7 @@ phases:
       - cat .env
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest --env GITHUB_CLIENT_ID ${GITHUB_CLIENT_ID} ./dashboard
+      - docker build -t $REPOSITORY_URI:latest ./dashboard
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
