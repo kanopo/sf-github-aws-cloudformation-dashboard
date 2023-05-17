@@ -505,6 +505,7 @@ Resources:
                 Provider: CodeBuild
                 Version: 1
               RunOrder: 2
+              RoleArn: arn:aws:iam::861507897222:role/codeBuildServiceRole
               Configuration: 
                 ProjectName: dmitri-build-node-docker
                 PrimarySource: SourceArtifact
