@@ -17,6 +17,7 @@ phases:
     commands:
       - echo "GITHUB_CLIENT_ID="${GITHUB_CLIENT_ID} >> .env
       - echo "GITHUB_CLIENT_SECRET="${GITHUB_CLIENT_SECRET} >> .env
+      - echo "NEXTAUTH_SECRET="${openssl rand -base64 32}
       - cat .env
       - echo Build started on `date`
       - echo Building the Docker image...
