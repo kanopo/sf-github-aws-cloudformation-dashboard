@@ -505,10 +505,10 @@ Resources:
                 Provider: CodeBuild
                 Version: 1
               RunOrder: 2
-              RoleArn: arn:aws:iam::861507897222:role/codeBuildServiceRole
               Configuration: 
                 ProjectName: dmitri-build-node-docker
                 PrimarySource: SourceArtifact
+                # !Sub '{{resolve:secretsmanager:dmitri-GITHUB-Oauth-secrets:SecretString:GITHUB_CLIENT_SECRET}}'
               Name: BuildAction
               OutputArtifacts:
                 - Name: BuildArtifact
