@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import './globals.css'
 import Nav from '@/components/Nav'
-import Provider from '@/components/Provider'
 
 export const metadata = {
   title: 'AWS + Github stack deployment',
@@ -16,10 +15,8 @@ interface Props {
 const Layout = ({ children }: Props) => (
   <html lang="en">
     <body>
-      <Provider>
-        <Nav />
-        {children}
-      </Provider>
+      <Nav />
+      {children}
     </body>
   </html>
 )
