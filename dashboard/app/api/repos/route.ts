@@ -7,7 +7,7 @@ export async function GET(request: Request) {
         username: process.env.GITHUB_USERNAME || 'kanopo',
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
-        }
+        },
     })
 
     return new Response(JSON.stringify(response.data))
