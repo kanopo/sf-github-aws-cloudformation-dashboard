@@ -1,6 +1,8 @@
-const Page = () =>  {
+const Page = () => {
   return (
-    <div>{process.env.GITHUB_CLIENT_ID}</div>
+    <div>
+      <h1>Page</h1>
+    </div>
   )
 }
 

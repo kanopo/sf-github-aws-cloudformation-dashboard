@@ -4,6 +4,7 @@ env:
     GITHUB_CLIENT_ID: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_ID"
     GITHUB_CLIENT_SECRET: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_SECRET"
     NEXT_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXT_SECRET"
+    NEXTAUTH_URL: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_URL"
 
 phases:
   pre_build:
@@ -19,6 +20,7 @@ phases:
       - echo "GITHUB_CLIENT_ID="${GITHUB_CLIENT_ID} >> ./dashboard/.env
       - echo "GITHUB_CLIENT_SECRET="${GITHUB_CLIENT_SECRET} >> ./dashboard/.env
       - echo "NEXTAUTH_SECRET="${NEXT_SECRET} >> ./dashboard/.env
+      - echo "NEXTAUTH_URL="${NEXTAUTH_URL} >> ./dashboard/.env
       - cat ./dashboard/.env
       - echo Build started on `date`
       - echo Building the Docker image...
@@ -33,4 +35,4 @@ phases:
       - echo Writing image definitions file...
       - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDefinitions.json
 artifacts:
-    files: imageDefinitions.json
+  files: imageDefinitions.json
