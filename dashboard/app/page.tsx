@@ -1,6 +1,6 @@
 
 const Page = async () => {
-  const res = await fetch("http://localhost:3000/api/repos")
+  const res = await fetch(process.env.URL + '/api/repos')
   const data = await res.json()
   return (
     <div className="flex flex-col">
