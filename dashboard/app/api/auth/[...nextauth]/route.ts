@@ -1,21 +1,16 @@
-
 import NextAuth from "next-auth"
 import GithubProvier from "next-auth/providers/github"
-
-const githubClientId = process.env.GITHUB_CLIENT_ID
-const githubClientSecret = process.env.GITHUB_CLIENT_SECRET
-
 
 const authOptions = {
   providers: [
     GithubProvier({
       // @ts-ignore
-      clientId: githubClientId,
+      clientId: process.env.GITHUB_CLIENT_ID,
       // @ts-ignore
-      clientSecret: githubClientSecret
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
     })
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  // secret: process.env.NEXTAUTH_SECRET,
 }
 
 const handler = NextAuth(authOptions)
