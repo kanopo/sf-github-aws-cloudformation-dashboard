@@ -5,6 +5,7 @@ env:
     NEXT_URL: "dmitri-GITHUB-Oauth-secrets:NEXT_URL"
     GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
     URL: "dmitri-GITHUB-Oauth-secrets:URL"
+    GITHUB_USERNAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_USERNAME"
 
 phases:
   pre_build:
@@ -21,6 +22,7 @@ phases:
       - echo "NEXTAUTH_URL="${NEXT_URL} >> ./dashboard/.env
       - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
       - echo "URL="${URL} >> ./dashboard/.env
+      - echo "GITHUB_USERNAME="${GITHUB_USERNAME} >> ./dashboard/.env
       - cat ./dashboard/.env
       - echo Build started on `date`
       - echo Building the Docker image...
