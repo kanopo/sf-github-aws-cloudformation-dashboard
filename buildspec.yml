@@ -1,10 +1,9 @@
 version: 0.2
 env:
   secrets-manager:
-    GITHUB_CLIENT_ID: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_ID"
-    GITHUB_CLIENT_SECRET: "dmitri-GITHUB-Oauth-secrets:GITHUB_CLIENT_SECRET"
     NEXT_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXT_SECRET"
     NEXT_URL: "dmitri-GITHUB-Oauth-secrets:NEXT_URL"
+    GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
 
 phases:
   pre_build:
@@ -17,10 +16,9 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "GITHUB_CLIENT_ID="${GITHUB_CLIENT_ID} >> ./dashboard/.env
-      - echo "GITHUB_CLIENT_SECRET="${GITHUB_CLIENT_SECRET} >> ./dashboard/.env
       - echo "NEXTAUTH_SECRET="${NEXT_SECRET} >> ./dashboard/.env
       - echo "NEXTAUTH_URL="${NEXT_URL} >> ./dashboard/.env
+      - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
       - cat ./dashboard/.env
       - echo Build started on `date`
       - echo Building the Docker image...
