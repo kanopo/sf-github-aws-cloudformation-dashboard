@@ -8,7 +8,7 @@ export async function GET(request: Request) {
         auth: process.env.GITHUB_TOKEN,
     });
     const response = await octokit.repos.listForAuthenticatedUser({
-        per_page: 10,
+        per_page: 100,
     });
 
 
