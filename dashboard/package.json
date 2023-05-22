@@ -16,6 +16,8 @@
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
     "aws-crt": "^1.15.16",
+    "fs": "0.0.1-security",
+    "net": "^1.0.2",
     "next": "13.4.2",
     "octokit": "^2.0.16",
     "octonode": "^0.10.2",
@@ -23,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwindcss": "3.3.2",
+    "tls": "^0.0.1",
     "typescript": "5.0.4"
   }
 }
