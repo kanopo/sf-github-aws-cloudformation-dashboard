@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Search from "./Search";
 
 
 const Nav = () => {
@@ -9,6 +10,7 @@ const Nav = () => {
       <ul className="w-[50vw] flex justify-around items-center">
         <li><Link href="/">Home</Link></li>
       </ul>
+      <Search />
     </div>
 
   )

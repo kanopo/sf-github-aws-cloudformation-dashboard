@@ -36,9 +36,8 @@ const page = async ({ params: { repoId } }: Props) => {
                         <p>Repo</p>
                         <div className="flex flex-col border-2 p-2 m-2">
                             <div className="flex flex-col">
-                                <p>{repo.name}</p>
-                                <p>{repo.language}</p>
-                                <p>{repo.description}</p>
+                                <p className="">{repo.name}</p>
+                                {JSON.stringify(repo)}
                             </div>
                         </div>
                     </div>
