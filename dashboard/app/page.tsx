@@ -1,21 +1,43 @@
+import { FC } from "react";
 
-const Page = async () => {
-  const res = await fetch(process.env.URL + '/api/repos')
-  const data = await res.json()
+interface Props {
+}
+
+const Page = async ({ }) => {
+  const responceRepos = await fetch(process.env.URL + '/api/repos')
+  const responceStacks = await fetch(process.env.URL + '/api/aws-stacks')
+  const dataRepos = await responceRepos.json()
+  const dataStacks = await responceStacks.json()
   return (
     <div className="flex flex-col">
-      {/* <h1>Home page</h1> */}
       <div className="flex w-full">
 
-        <div className="border-2 border-red-600 w-[50vw]">
+        <div className="w-[50vw]">
           <p>My repos</p>
-          <ul>
-            {data.map((repo: any) => (<li key={repo.id}>{repo.name}</li>))}
-          </ul>
+          {dataRepos.map((repo: any) => (
+            <div className="flex flex-col border-2 p-2 m-2">
+              <div className="flex flex-col">
+                <p className="">{repo.name}</p>
+                <p className="">{repo.language}</p>
+                <p>{repo.description}</p>
+              </div>
+            </div>
+          ))}
 
         </div>
-        <div className="border-2 border-red-600 w-[50vw]">
+        <div className="w-[50vw]">
           <p>AWS stacks</p>
+          {dataStacks.map((stack: any) => (
+            <div className="flex flex-col border-2 p-2 m-2">
+              <div className="flex flex-col">
+                <p className="">{stack.StackName}</p>
+                <p className="">{stack.TemplateDescription}</p>
+                <p className="">{stack.StackStatus}</p>
+                <p>{stack.description}</p>
+              </div>
+            </div>
+          ))}
+
 
         </div>
       </div>
