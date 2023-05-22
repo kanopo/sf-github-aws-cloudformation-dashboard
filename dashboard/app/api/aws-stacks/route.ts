@@ -1,9 +1,14 @@
 import { CloudFormationClient, ListStacksCommand } from "@aws-sdk/client-cloudformation"; // ES Modules import
 
 export async function GET(request: Request) {
-  const client = new CloudFormationClient({ region: process.env.AWS_REGION });
+  const client = new CloudFormationClient({
+    region: process.env.AWS_REGION || 'eu-north-1',
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY || '',
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ''
+    }
+  });
   const response = await client.send(new ListStacksCommand({}));
-  console.log(response);
   const stacks = response.StackSummaries;
   if (!stacks) {
     return new Response(JSON.stringify([]));
