@@ -6,6 +6,9 @@ env:
     GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
     URL: "dmitri-GITHUB-Oauth-secrets:URL"
     GITHUB_USERNAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_USERNAME"
+    AWS_KEY: "dmitri-GITHUB-Oauth-secrets:AWS_KEY"
+    AWS_SECRET: "dmitri-GITHUB-Oauth-secrets:AWS_SECRET"
+    AWS_REGION: "dmitri-GITHUB-Oauth-secrets:AWS_REGION"
 
 phases:
   pre_build:
@@ -23,6 +26,9 @@ phases:
       - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
       - echo "URL="${URL} >> ./dashboard/.env
       - echo "GITHUB_USERNAME="${GITHUB_USERNAME} >> ./dashboard/.env
+      - echo "AWS_ACCESS_KEY="${AWS_KEY} >> ./dashboard/.env
+      - echo "AWS_SECRET_ACCESS_KEY="${AWS_SECRET} >> ./dashboard/.env
+      - echo "AWS_REGION="${AWS_REGION} >> ./dashboard/.env
       - cat ./dashboard/.env
       - echo Build started on `date`
       - echo Building the Docker image...
