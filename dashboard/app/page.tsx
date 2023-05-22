@@ -1,17 +1,21 @@
 import { FC } from "react";
+// @ts-ignore
+import { Octokit } from "@octokit/rest";
 import { CloudFormationClient, ListStacksCommand, StackSummary } from "@aws-sdk/client-cloudformation";
-const github = require('octonode');
 
-export const dynamic = true;
+export const dynamic = 'force-dynamic';
 interface Props {
 }
 
 const getRepos = async () => {
+  const octokit = new Octokit({
+    auth: process.env.GITHUB_TOKEN,
+  });
+  const response = await octokit.repos.listForAuthenticatedUser({
+    per_page: 10,
+  });
 
-  const client = github.client(process.env.GITHUB_TOKEN);
-  const ghme = client.me();
-  const response = await ghme.reposAsync();
-  return response[0];
+  return response.data;
 }
 
 const getStacks = async () => {
@@ -32,7 +36,7 @@ const getStacks = async () => {
   return activestacks;
 }
 
-const Page = async ({ }) => {
+const Page = async ({ }: Props) => {
   const dataRepos = await getRepos()
   const dataStacks = await getStacks()
 
@@ -43,19 +47,22 @@ const Page = async ({ }) => {
         <div className="w-[50vw]">
           <p>My repos</p>
           {dataRepos.map((repo: any) => (
-            <div className="flex flex-col border-2 p-2 m-2">
-              <div className="flex flex-col">
-                <p className="">{repo.name}</p>
-                <p className="">{repo.language}</p>
-                <p>{repo.description}</p>
+            <a href={process.env.URL + '/repos/' + repo.id}>
+              <div className="flex flex-col border-2 p-2 m-2">
+                <div className="flex flex-col">
+                  <p className="">{repo.name}</p>
+                  <p className="">{repo.language}</p>
+                  <p>{repo.description}</p>
+                </div>
               </div>
-            </div>
+            </a>
           ))}
 
         </div>
         <div className="w-[50vw]">
           <p>AWS stacks</p>
           {dataStacks.map((stack: any) => (
+            // <a href={process.env.URL + '/stacks/' + stack.StackId}>
             <div className="flex flex-col border-2 p-2 m-2">
               <div className="flex flex-col">
                 <p className="">{stack.StackName}</p>
@@ -64,6 +71,7 @@ const Page = async ({ }) => {
                 <p>{stack.description}</p>
               </div>
             </div>
+            // </a>
           ))}
 
 
