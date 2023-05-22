@@ -2,7 +2,7 @@ import { FC } from "react";
 import { CloudFormationClient, ListStacksCommand, StackSummary } from "@aws-sdk/client-cloudformation";
 const github = require('octonode');
 
-export const dynamic = 'force-dynamic';
+export const dynamic = true;
 interface Props {
 }
 
