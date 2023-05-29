@@ -1,14 +1,8 @@
 version: 0.2
 env:
   secrets-manager:
-    NEXT_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXT_SECRET"
     NEXT_URL: "dmitri-GITHUB-Oauth-secrets:NEXT_URL"
     GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
-    URL: "dmitri-GITHUB-Oauth-secrets:URL"
-    GITHUB_USERNAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_USERNAME"
-    AWS_KEY: "dmitri-GITHUB-Oauth-secrets:AWS_KEY"
-    AWS_SECRET: "dmitri-GITHUB-Oauth-secrets:AWS_SECRET"
-    AWS_REGION: "dmitri-GITHUB-Oauth-secrets:AWS_REGION"
 
 phases:
   pre_build:
@@ -21,18 +15,14 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "NEXTAUTH_SECRET="${NEXT_SECRET} >> ./dashboard/.env
-      - echo "NEXTAUTH_URL="${NEXT_URL} >> ./dashboard/.env
-      - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
-      - echo "URL="${URL} >> ./dashboard/.env
-      - echo "GITHUB_USERNAME="${GITHUB_USERNAME} >> ./dashboard/.env
-      - echo "AWS_ACCESS_KEY="${AWS_KEY} >> ./dashboard/.env
-      - echo "AWS_SECRET_ACCESS_KEY="${AWS_SECRET} >> ./dashboard/.env
-      - echo "AWS_REGION="${AWS_REGION} >> ./dashboard/.env
-      - cat ./dashboard/.env
+      - echo "NEXT_PUBLIC_SITE_URL="${NEXT_URL} >> .env
+      - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> .env
+
+      - cat .env
+
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest ./dashboard
+      - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
@@ -41,6 +31,9 @@ phases:
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imageDefinitions.json
+      - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > images.json
 artifacts:
-  files: imageDefinitions.json
+  files: images.json
+
+
+

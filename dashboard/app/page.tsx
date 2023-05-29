@@ -1,11 +1,11 @@
 import RepoList from "@/components/RepoList";
+import { FC } from "react";
 
 
-// export const dynamic = 'force-dynamic';
 interface Props {
 }
 
-const Page = async ({ }: Props) => {
+const Page: FC<Props> = ({ }) => {
   return (
     <RepoList />
   )

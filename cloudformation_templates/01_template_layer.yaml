@@ -38,23 +38,23 @@ Parameters:
 
 
 Resources:
-  DBCredentials:
-    Type: AWS::SecretsManager::Secret
-    Properties: 
-      Description: Auto generated password for DB
-      GenerateSecretString: 
-        GenerateStringKey: "password"
-        SecretStringTemplate: !Sub '{"username": "${pDatabaseUser}"}'
-        PasswordLength: 30
-        ExcludeCharacters: '"@/\'
-
-  DBSubnetGroup:
-    Type: AWS::RDS::DBSubnetGroup
-    Properties:
-      DBSubnetGroupDescription: subnet group for rds
-      SubnetIds:
-        - Fn::ImportValue: !Sub dmitri-private-subnet-01
-        - Fn::ImportValue: !Sub dmitri-private-subnet-02
+  # DBCredentials:
+  #   Type: AWS::SecretsManager::Secret
+  #   Properties: 
+  #     Description: Auto generated password for DB
+  #     GenerateSecretString: 
+  #       GenerateStringKey: "password"
+  #       SecretStringTemplate: !Sub '{"username": "${pDatabaseUser}"}'
+  #       PasswordLength: 30
+  #       ExcludeCharacters: '"@/\'
+  #
+  # DBSubnetGroup:
+  #   Type: AWS::RDS::DBSubnetGroup
+  #   Properties:
+  #     DBSubnetGroupDescription: subnet group for rds
+  #     SubnetIds:
+  #       - Fn::ImportValue: !Sub dmitri-private-subnet-01
+  #       - Fn::ImportValue: !Sub dmitri-private-subnet-02
 
 
 
@@ -142,21 +142,21 @@ Resources:
       KeyUsage: ENCRYPT_DECRYPT 
 
 
-  MyDB:
-    Type: AWS::RDS::DBInstance
-    Properties:
-      StorageType: gp3
-      AllocatedStorage: 20
-      DBInstanceClass: db.t3.small
-      Engine: MySQL
-      MasterUsername: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:username}}' 
-      MasterUserPassword: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:password}}'  
-      NetworkType: ipv4
-      DBSubnetGroupName: !Ref DBSubnetGroup
-      VPCSecurityGroups:
-        - Fn::ImportValue: !Sub dmitri-sg-db
-      KmsKeyId: !GetAtt KMSKey.Arn
-      StorageEncrypted: true
+  # MyDB:
+  #   Type: AWS::RDS::DBInstance
+  #   Properties:
+  #     StorageType: gp3
+  #     AllocatedStorage: 20
+  #     DBInstanceClass: db.t3.small
+  #     Engine: MySQL
+  #     MasterUsername: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:username}}' 
+  #     MasterUserPassword: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:password}}'  
+  #     NetworkType: ipv4
+  #     DBSubnetGroupName: !Ref DBSubnetGroup
+  #     VPCSecurityGroups:
+  #       - Fn::ImportValue: !Sub dmitri-sg-db
+  #     KmsKeyId: !GetAtt KMSKey.Arn
+  #     StorageEncrypted: true
 
 
   SGLoadBalancer:
@@ -289,10 +289,10 @@ Resources:
               ContainerPort: 3000
               HostPort: 3000
               Protocol: tcp
-            - AppProtocol: http
-              ContainerPort: 3306
-              HostPort: 3306
-              Protocol: http
+            # - AppProtocol: http
+            #   ContainerPort: 3306
+            #   HostPort: 3306
+            #   Protocol: http
             - AppProtocol: http
               ContainerPort: 22
               HostPort: 22
@@ -300,24 +300,24 @@ Resources:
           Environment:
             - Name: PORT
               Value: 3000
-            - Name: DB_DATABASE
-              Value: node_app
-            - Name: DB_HOST
-              Value: !GetAtt MyDB.Endpoint.Address
-            - Name: DB_PASSWORD
-              Value: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:password}}' 
-            - Name: DB_PORT
-              Value: 3306
-            - Name: DB_USER
-              Value: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:username}}' 
-            - Name: BUCKET_NAME
-              Value: !Ref ImageStoreBucket
+            # - Name: DB_DATABASE
+            #   Value: node_app
+            # - Name: DB_HOST
+            #   Value: !GetAtt MyDB.Endpoint.Address
+            # - Name: DB_PASSWORD
+            #   Value: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:password}}' 
+            # - Name: DB_PORT
+            #   Value: 3306
+            # - Name: DB_USER
+            #   Value: !Sub '{{resolve:secretsmanager:${DBCredentials}:SecretString:username}}' 
+            # - Name: BUCKET_NAME
+            #   Value: !Ref ImageStoreBucket
             - Name: BUCKET_REGION
               Value: !Ref AWS::Region
-            - Name: GITHUB_CLIENT_ID
-              Value: !Sub '{{resolve:secretsmanager:dmitri-GITHUB-Oauth-secrets:SecretString:GITHUB_CLIENT_ID}}' 
-            - Name: GITHUB_CLIENT_SECRET
-              Value: !Sub '{{resolve:secretsmanager:dmitri-GITHUB-Oauth-secrets:SecretString:GITHUB_CLIENT_SECRET}}' 
+            # - Name: GITHUB_CLIENT_ID
+            #   Value: !Sub '{{resolve:secretsmanager:dmitri-GITHUB-Oauth-secrets:SecretString:GITHUB_CLIENT_ID}}' 
+            # - Name: GITHUB_CLIENT_SECRET
+            #   Value: !Sub '{{resolve:secretsmanager:dmitri-GITHUB-Oauth-secrets:SecretString:GITHUB_CLIENT_SECRET}}' 
 
           LogConfiguration:
             LogDriver: awslogs
@@ -362,15 +362,15 @@ Resources:
               KMSMasterKeyID: !GetAtt KMSKey.Arn
               SSEAlgorithm: aws:kms
 
-  ImageStoreBucket:
-    Type: "AWS::S3::Bucket"
-    Properties:
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - BucketKeyEnabled: true
-            ServerSideEncryptionByDefault:
-              KMSMasterKeyID: !GetAtt KMSKey.Arn
-              SSEAlgorithm: aws:kms
+  # ImageStoreBucket:
+  #   Type: "AWS::S3::Bucket"
+  #   Properties:
+  #     BucketEncryption:
+  #       ServerSideEncryptionConfiguration:
+  #         - BucketKeyEnabled: true
+  #           ServerSideEncryptionByDefault:
+  #             KMSMasterKeyID: !GetAtt KMSKey.Arn
+  #             SSEAlgorithm: aws:kms
 
   CleanArtifactBucket:
     Type: Custom::cleanBucket
@@ -379,12 +379,12 @@ Resources:
       BucketName: !Ref ArtifactStoreBucket
       Region: !Ref AWS::Region
 
-  CleanImageBucket:
-    Type: Custom::cleanBucket
-    Properties: 
-      ServiceToken: !GetAtt LFCleanBucket.Arn
-      BucketName: !Ref ImageStoreBucket
-      Region: !Ref AWS::Region
+  # CleanImageBucket:
+  #   Type: Custom::cleanBucket
+  #   Properties: 
+  #     ServiceToken: !GetAtt LFCleanBucket.Arn
+  #     BucketName: !Ref ImageStoreBucket
+  #     Region: !Ref AWS::Region
 
   LFCleanBucket:
     Type: AWS::Lambda::Function
@@ -525,7 +525,7 @@ Resources:
               Configuration:
                 ClusterName: !Ref ECSCluster
                 ServiceName: !Ref ECSService
-                FileName: imageDefinitions.json
+                FileName: images.json
               Name: DeployAction
 
 
