@@ -23,7 +23,6 @@ const RepoList = () => {
   return (
     <div className="w-[50vw]">
       <h1>My repos</h1>
-
       {repos && repos.map((repo: Repo) => (
         <Link id={repo.id} href={`/repos/${repo.full_name}`}>
           <p>{repo.full_name}</p>
