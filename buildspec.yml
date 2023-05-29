@@ -15,14 +15,14 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "NEXT_PUBLIC_SITE_URL="${NEXT_URL} >> .env
-      - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> .env
+      - echo "NEXT_PUBLIC_SITE_URL="${NEXT_URL} >> ./dashboard/.env
+      - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
 
       - cat .env
 
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest .
+      - docker build -t $REPOSITORY_URI:latest ./dashboard
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
