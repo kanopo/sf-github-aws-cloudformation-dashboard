@@ -538,6 +538,6 @@ Outputs:
         - - https://
           - !Ref pDNSName
 
-  MysqlUrl:
-    Description: Mysql URI
-    Value: !GetAtt MyDB.Endpoint.Address 
+  # MysqlUrl:
+  #   Description: Mysql URI
+  #   Value: !GetAtt MyDB.Endpoint.Address 
