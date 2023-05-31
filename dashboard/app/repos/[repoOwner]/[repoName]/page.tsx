@@ -3,7 +3,7 @@
 import { FC, useEffect, useState } from "react";
 import { Branch } from "@/types/Octokit";
 import { GitHubRepo } from "@/types/Octokit";
-
+import BranchList from "@/components/BranchList";
 
 interface Props {
   params: {
@@ -19,7 +19,23 @@ const Page: FC<Props> = (
 
   const [repo, setRepo] = useState<GitHubRepo>()
   const [branches, setBranches] = useState<Branch[]>([])
+  const [newBranch, setNewBranch] = useState<string>('')
 
+
+
+  const updateBranches = () => {
+    fetch("/api/branches?" + new URLSearchParams({
+      repoOwner: repoOwner,
+      repoName: repoName
+    }), {
+      cache: 'no-store',
+      next: {
+        revalidate: 0,
+      }
+    })
+      .then(res => res.json())
+      .then((data: Branch[]): void => setBranches(data))
+  }
 
   useEffect(() => {
     fetch("/api/repos?" + new URLSearchParams({
@@ -59,7 +75,30 @@ const Page: FC<Props> = (
     }), {
       method: 'POST',
     })
+      // TODO: handle error and handle finisced
       .then(res => console.log(res))
+
+  }
+
+  const createNewBranch = () => {
+    //TODO: check if branch already exists
+    //TODO: check if branch name is valid
+    fetch("/api/branches?" + new URLSearchParams({
+      repoOwner: repoOwner,
+      repoName: repoName,
+      branchName: newBranch,
+      sha: branches[0].commit.sha
+    }), {
+      method: 'POST',
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          updateBranches()
+        }
+      })
+
+    setNewBranch('')
+
   }
 
   if (!repo) return <p>Loading...</p>
@@ -80,19 +119,13 @@ const Page: FC<Props> = (
 
       <div className="border-2 p-2 mb-4">
         <p>Create new branch(WIP)</p>
+        <input value={newBranch} onChange={(e) => setNewBranch(e.target.value)} />
+        <button onClick={createNewBranch}>Create new branch</button>
 
       </div>
 
+      {branches.length > 0 && <BranchList branches={branches} />}
 
-      <div className="border-2 p-2">
-        <p>Branches:</p>
-        {branches && branches.map((branch: Branch) => (
-          <div id={branch.name}>
-            <p>{branch.name}</p>
-          </div>
-        ))}
-
-      </div>
     </div>
   )
 }
