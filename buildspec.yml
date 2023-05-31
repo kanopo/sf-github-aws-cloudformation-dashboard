@@ -3,6 +3,8 @@ env:
   secrets-manager:
     NEXT_URL: "dmitri-GITHUB-Oauth-secrets:NEXT_URL"
     GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
+    GITHUB_COMMIT_EMAIL: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_EMAIL"
+    GITHUB_COMMIT_NAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_NAME"
 
 phases:
   pre_build:
@@ -17,6 +19,8 @@ phases:
     commands:
       - echo "NEXT_PUBLIC_SITE_URL="${NEXT_URL} >> ./dashboard/.env
       - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
+      - echo "GITHUB_COMMIT_EMAIL="${GITHUB_COMMIT_EMAIL} >> ./dashboard/.env
+      - echo "GITHUB_COMMIT_NAME="${GITHUB_COMMIT_NAME} >> ./dashboard/.env
 
 
       - echo Build started on `date`

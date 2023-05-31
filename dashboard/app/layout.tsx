@@ -3,8 +3,8 @@ import './globals.css'
 import Nav from '@/components/Nav'
 
 export const metadata = {
-  title: 'AWS + Github stack deployment',
-  description: 'Web app written in nextjs to administrate AWS cloudformation deployment and the relative projects stored in github',
+  title: 'Actions Dashboard',
+  description: 'Dashboard for github actions',
 }
 
 interface Props {

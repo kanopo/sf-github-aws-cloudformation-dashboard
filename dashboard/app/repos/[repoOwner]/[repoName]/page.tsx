@@ -62,20 +62,29 @@ const Page: FC<Props> = (
       .then(res => console.log(res))
   }
 
+  if (!repo) return <p>Loading...</p>
+
 
   return (
-    <div>
-      <p>Repo name: {repo?.full_name}</p>
-      <p>Description: {repo?.description}</p>
-      <p>Language: {repo?.language}</p>
+    <div className="w-[85vw]">
+      <div className="border-2 p-2 mb-4">
+        <p>Repo name: {repo?.full_name}</p>
+        <p>Description: {repo?.description}</p>
+        <p>Language: {repo?.language}</p>
+      </div>
 
-      <div>
+      <div className="border-2 p-2 mb-4">
         <h1>Deploy github action inside main branch</h1>
         <button onClick={createDeployScript}>DEPLOY</button>
       </div>
 
+      <div className="border-2 p-2 mb-4">
+        <p>Create new branch(WIP)</p>
 
-      <div>
+      </div>
+
+
+      <div className="border-2 p-2">
         <p>Branches:</p>
         {branches && branches.map((branch: Branch) => (
           <div id={branch.name}>
