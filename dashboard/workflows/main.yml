@@ -1,0 +1,9 @@
+name: Deploy CloudFormation Stack
+on:
+  workflow_dispatch:
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: hello
+        run: echo "Hello World!"

@@ -4,8 +4,7 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-// @ts-ignore
-import { Repo } from "@/types"
+import { GitHubRepo } from "@/types/Octokit"
 
 const RepoList = () => {
 
@@ -23,10 +22,12 @@ const RepoList = () => {
   return (
     <div className="w-[50vw]">
       <h1>My repos</h1>
-      {repos && repos.map((repo: Repo) => (
-        <Link id={repo.id} href={`/repos/${repo.full_name}`}>
-          <p>{repo.full_name}</p>
-        </Link>
+      {repos && repos.map((repo: GitHubRepo) => (
+        <div key={repo.id}>
+          <Link href={`/repos/${repo.full_name}`}>
+            <p>{repo.full_name}</p>
+          </Link>
+        </div>
       ))}
     </div>
   )

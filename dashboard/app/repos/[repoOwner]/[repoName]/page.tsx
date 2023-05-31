@@ -1,9 +1,8 @@
 "use client"
 
-
-import { FC, useEffect, useRef, useState } from "react";
-//@ts-ignore
-import { Repo, Branch } from "@/types"
+import { FC, useEffect, useState } from "react";
+import { Branch } from "@/types/Octokit";
+import { GitHubRepo } from "@/types/Octokit";
 
 
 interface Props {
@@ -18,7 +17,7 @@ const Page: FC<Props> = (
 ) => {
 
 
-  const [repo, setRepo] = useState<Repo>(null)
+  const [repo, setRepo] = useState<GitHubRepo>()
   const [branches, setBranches] = useState<Branch[]>([])
 
 
@@ -33,7 +32,7 @@ const Page: FC<Props> = (
       }
     })
       .then(res => res.json())
-      .then((data): Repo => {
+      .then((data: GitHubRepo): void => {
         setRepo(data)
       })
 
@@ -49,7 +48,7 @@ const Page: FC<Props> = (
       }
     })
       .then(res => res.json())
-      .then((data): Branch => setBranches(data))
+      .then((data: Branch[]): void => setBranches(data))
 
   }, [])
 
@@ -60,8 +59,7 @@ const Page: FC<Props> = (
     }), {
       method: 'POST',
     })
-      .then(res => res.json())
-      .then((data) => console.log(data))
+      .then(res => console.log(res))
   }
 
 
@@ -79,11 +77,12 @@ const Page: FC<Props> = (
 
       <div>
         <p>Branches:</p>
-        <ul>
-          {branches && branches.map((branch: Branch) => (
-            <li>{branch.name}</li>
-          ))}
-        </ul>
+        {branches && branches.map((branch: Branch) => (
+          <div id={branch.name}>
+            <p>{branch.name}</p>
+          </div>
+        ))}
+
       </div>
     </div>
   )

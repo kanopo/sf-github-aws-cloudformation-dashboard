@@ -146,3 +146,88 @@ export interface RequiredStatusChecks {
   enforcement_level: string
   contexts: string[]
 }
+
+
+export interface GetFile {
+  type: string
+  encoding: string
+  size: number
+  name: string
+  path: string
+  content: string
+  sha: string
+  url: string
+  git_url: string
+  html_url: string
+  download_url: string
+  _links: Links
+}
+
+export interface Links {
+  git: string
+  self: string
+  html: string
+}
+
+
+export interface PutFile {
+  content: Content
+  commit: Commit
+}
+
+export interface Content {
+  name: string
+  path: string
+  sha: string
+  size: number
+  url: string
+  html_url: string
+  git_url: string
+  download_url: string
+  type: string
+  _links: Links
+}
+
+
+export interface Commit {
+  sha: string
+  node_id: string
+  url: string
+  html_url: string
+  author: Author
+  committer: Committer
+  message: string
+  tree: Tree
+  parents: Parent[]
+  verification: Verification
+}
+
+export interface Author {
+  date: string
+  name: string
+  email: string
+}
+
+export interface Committer {
+  date: string
+  name: string
+  email: string
+}
+
+export interface Tree {
+  url: string
+  sha: string
+}
+
+export interface Parent {
+  url: string
+  html_url: string
+  sha: string
+}
+
+export interface Verification {
+  verified: boolean
+  reason: string
+  signature: any
+  payload: any
+}
