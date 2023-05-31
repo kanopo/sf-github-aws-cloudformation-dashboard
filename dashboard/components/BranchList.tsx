@@ -20,7 +20,7 @@ const BranchList: FC<Props> = ({ branches }: Props) => {
 
 
   return (
-    <div className="min-w-full border-2 p-2">
+    <div className="min-w-full border-2 border-dashed p-2">
       {branches.map((branch: Branch) => (
         <div key={branch.name} className="border-2 p-2 my-2 flex justify-between items-center">
           <p>{branch.name}</p>

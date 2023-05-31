@@ -80,9 +80,20 @@ const Page: FC<Props> = (
 
   }
 
+  const onChangeBranchInputName = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    //TODO: check if branch name is valid
+    //VALID patterns  are:
+    // - a-zA-Z0-9/-/_/.
+
+
+
+    setNewBranch(e.target.value)
+  }
+
   const createNewBranch = () => {
     //TODO: check if branch already exists
-    //TODO: check if branch name is valid
+
     fetch("/api/branches?" + new URLSearchParams({
       repoOwner: repoOwner,
       repoName: repoName,
@@ -106,22 +117,23 @@ const Page: FC<Props> = (
 
   return (
     <div className="w-[85vw]">
-      <div className="border-2 p-2 mb-4">
+      <div className="border-2 border-dashed p-2 mb-4">
         <p>Repo name: {repo?.full_name}</p>
         <p>Description: {repo?.description}</p>
         <p>Language: {repo?.language}</p>
       </div>
 
-      <div className="border-2 p-2 mb-4">
+      <div className="min-w-full border-2 border-dashed p-2 mb-4 flex justify-between items-center">
         <h1>Deploy github action inside main branch</h1>
         <button onClick={createDeployScript}>DEPLOY</button>
       </div>
 
-      <div className="border-2 p-2 mb-4">
+      <div className="min-w-full border-2 border-dashed p-2 mb-4 flex justify-between items-center">
         <p>Create new branch(WIP)</p>
-        <input value={newBranch} onChange={(e) => setNewBranch(e.target.value)} />
-        <button onClick={createNewBranch}>Create new branch</button>
-
+        <div>
+          <input value={newBranch} onChange={onChangeBranchInputName} className="mr-2 border-2" />
+          <button onClick={createNewBranch}>Create new branch</button>
+        </div>
       </div>
 
       {branches.length > 0 && <BranchList branches={branches} />}
