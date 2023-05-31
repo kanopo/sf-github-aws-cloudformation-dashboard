@@ -7,7 +7,9 @@ interface Props {
 
 const Page: FC<Props> = ({ }) => {
   return (
-    <RepoList />
+    <div>
+      <RepoList />
+    </div>
   )
 }
 

@@ -5,12 +5,10 @@ import Link from "next/link";
 
 const Nav = () => {
   return (
-    <div className="h-[8vh] flex items-center border-2" >
-      <ul className="w-[50vw] flex justify-around items-center">
-        <li><Link href="/">Home</Link></li>
-      </ul>
-    </div>
-
+    <ul className="h-[8vh] w-[85vw] flex justify-start items-center">
+      <li><Link href="/" className="p-4 mx-4">Home</Link></li>
+      <li><Link href="/about" className="p-4 mx-4">About</Link></li>
+    </ul>
   )
 }
 
