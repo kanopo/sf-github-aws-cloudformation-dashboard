@@ -39,7 +39,7 @@ Parameters:
 
 Conditions:
   dnsName: !Equals
-    - !Ref pDNSName
+    - !Ref pBranchName
     - "main"
 Resources:
   # DBCredentials:
@@ -240,7 +240,6 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId : !Ref pHostedZoneId
-      # Name: !Ref pDNSName
       Name: 
         !If 
           - dnsName
