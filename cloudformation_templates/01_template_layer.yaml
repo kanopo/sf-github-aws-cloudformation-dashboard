@@ -34,9 +34,13 @@ Parameters:
   pBranchName:
     Description: source branch
     Type: String
-    Default: dev
+    Default: main
 
 
+Conditions:
+  dnsName: !Equals
+    - !Ref pDNSName
+    - "main"
 Resources:
   # DBCredentials:
   #   Type: AWS::SecretsManager::Secret
@@ -220,12 +224,14 @@ Resources:
   HTTPSCertificate:
     Type: AWS::CertificateManager::Certificate
     Properties: 
-      # DomainName: !Ref pDNSName
-      DomainName:
-        !Join
-          - "."
-          - - !Ref pBranchName
-            - !Ref pDNSName
+      DomainName: 
+        !If 
+          - dnsName
+          - !Ref pDNSName
+          - !Join
+            - "."
+            - - !Ref pBranchName
+              - !Ref pDNSName
 
       ValidationMethod: DNS
 
@@ -236,10 +242,14 @@ Resources:
       HostedZoneId : !Ref pHostedZoneId
       # Name: !Ref pDNSName
       Name: 
-        !Join
-          - "."
-          - - !Ref pBranchName
-            - !Ref pDNSName
+        !If 
+          - dnsName
+          - !Ref pDNSName
+          - !Join
+            - "."
+            - - !Ref pBranchName
+              - !Ref pDNSName
+
       ResourceRecords:
       - !GetAtt ALB.DNSName
       TTL: 900
@@ -534,10 +544,13 @@ Outputs:
   LoadBalancerDns:
     Description: EndPoint URI
     Value: 
-      !Join
-        - ''
-        - - https://
+        !If 
+          - dnsName
           - !Ref pDNSName
+          - !Join
+            - "."
+            - - !Ref pBranchName
+              - !Ref pDNSName
 
   # MysqlUrl:
   #   Description: Mysql URI
