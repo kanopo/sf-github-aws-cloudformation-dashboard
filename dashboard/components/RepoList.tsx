@@ -33,7 +33,13 @@ const RepoList = () => {
 
   useEffect(() => {
     if (!repos) return
-    const filtered = repos.filter(repo => repo.full_name.includes(search))
+    const filtered = repos.filter(repo => repo.full_name.toLowerCase().includes(search.toLowerCase())
+      ||
+      repo.description !== null && repo.description !== undefined && repo.description.toLowerCase().includes(search.toLowerCase())
+      ||
+      repo.language !== null && repo.language !== undefined && repo.language.toLowerCase().includes(search.toLowerCase())
+    )
+
     setFilteredRepos(filtered)
   }, [search])
 
