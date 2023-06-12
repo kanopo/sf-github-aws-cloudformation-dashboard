@@ -3,7 +3,7 @@ import './globals.css'
 import Nav from '@/components/Nav'
 
 export const metadata = {
-  title: 'Actions Dashboard',
+  title: 'Dashboard',
   description: 'Dashboard for github actions',
 }
 

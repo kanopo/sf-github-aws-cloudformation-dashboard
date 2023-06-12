@@ -128,9 +128,9 @@ const Page: FC<Props> = (
         <button onClick={createDeployScript}>DEPLOY</button>
       </div>
 
-      <div className="min-w-full border-2 border-dashed p-2 mb-4 flex justify-between items-center">
-        <p>Create new branch(WIP)</p>
-        <div>
+      <div className="min-w-full border-2 border-dashed p-2 mb-4 flex flex-wrap justify-between items-center">
+        <p>Create new branch</p>
+        <div className="flex flex-wrap justify-center items-center">
           <input value={newBranch} onChange={onChangeBranchInputName} className="mr-2 border-2" />
           <button onClick={createNewBranch}>Create new branch</button>
         </div>

@@ -25,7 +25,7 @@ const RepoList = () => {
         setFilteredRepos(data)
         // const login = data[0].owner.login
         // setUser(login)
-        console.log(data)
+        // console.log(data)
       })
 
   }, [])
@@ -45,7 +45,7 @@ const RepoList = () => {
     <div className="w-[80vw]">
       {user && <h1>Repos for {user}</h1>}
 
-      <input type="text" className="border-2 border-dashed p-4 my-2" placeholder="Search" value={search} onChange={(event) => { setSearch(event.target.value) }} />
+      <input type="text" className="w-full border-2 border-dashed p-4 my-2" placeholder="Search" value={search} onChange={(event) => { setSearch(event.target.value) }} />
 
 
       {filteredRepos && filteredRepos.map((repo: GitHubRepo) => (

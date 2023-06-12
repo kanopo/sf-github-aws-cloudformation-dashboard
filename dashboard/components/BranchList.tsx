@@ -24,7 +24,7 @@ const BranchList: FC<Props> = ({ branches }: Props) => {
       {branches.map((branch: Branch) => (
         <div key={branch.name} className="border-2 p-2 my-2 flex justify-between items-center">
           <p>{branch.name}</p>
-          <button onClick={onDeploy}>Deploy</button>
+          {/* <button onClick={onDeploy}>Deploy</button> */}
         </div>
       ))}
 
