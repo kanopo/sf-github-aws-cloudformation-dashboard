@@ -11,6 +11,10 @@ const RepoList = () => {
   const [repos, setRepos] = useState<GitHubRepo[]>()
   const [user, setUser] = useState("")
 
+  const [search, setSearch] = useState("")
+
+  const [filteredRepos, setFilteredRepos] = useState<GitHubRepo[]>()
+
   useEffect(() => {
     fetch('/api/repos', {
       cache: 'no-store',
@@ -18,11 +22,21 @@ const RepoList = () => {
       .then(res => res.json())
       .then((data: GitHubRepo[]): void => {
         setRepos(data)
-        const login = data[0].owner.login
-        setUser(login)
+        setFilteredRepos(data)
+        // const login = data[0].owner.login
+        // setUser(login)
+        console.log(data)
       })
 
   }, [])
+
+
+  useEffect(() => {
+    if (!repos) return
+    const filtered = repos.filter(repo => repo.full_name.includes(search))
+    setFilteredRepos(filtered)
+  }, [search])
+
 
   if (!repos) return <div>Loading...</div>
 
@@ -31,7 +45,10 @@ const RepoList = () => {
     <div className="w-[80vw]">
       {user && <h1>Repos for {user}</h1>}
 
-      {repos && repos.map((repo: GitHubRepo) => (
+      <input type="text" className="border-2 border-dashed p-4 my-2" placeholder="Search" value={search} onChange={(event) => { setSearch(event.target.value) }} />
+
+
+      {filteredRepos && filteredRepos.map((repo: GitHubRepo) => (
         <div key={repo.id} className="border-2 border-dashed p-4 my-2">
           <Link href={`/repos/${repo.full_name}`}>
             <p>{repo.full_name}</p>
