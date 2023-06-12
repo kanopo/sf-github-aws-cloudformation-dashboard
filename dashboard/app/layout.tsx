@@ -15,12 +15,12 @@ interface Props {
 const Layout = ({ children }: Props) => (
   <html lang="en">
     <body>
-      <div className="h-[8vh] flex items-center justify-center" >
-        <Nav />
-      </div>
-      <div className="min-w-full flex justify-center items-start">
-        {children}
-      </div>
+        <div className="h-[8vh] flex items-center justify-center" >
+          <Nav />
+        </div>
+        <div className="min-w-full flex justify-center items-start">
+          {children}
+        </div>
     </body>
   </html>
 )
