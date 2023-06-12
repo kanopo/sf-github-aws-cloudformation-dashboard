@@ -1,18 +1,11 @@
-# AWS dashboard
+# GitHub Cloudformation Dashboard - GCD
 
-
-## TODO
-
-
-- [ ] effettuare il deploy
-    - [ ] capire se nella main repo è già presente la actions di github
-    - [ ] se la action è presente effettuare il deploy su aws
-    - [ ] se la actions non è presente, creare la actions ed effettuare il deploy
-
-- [ ] listare le repo
-
-- [ ] inserire il token di github al volo e non negli env
-
-
+## TODOs
+- [ ] select what template you want to build
+- [ ] integration with aws for a proper understending about the deploy cicle
 - [ ] UI/UX
+- [ ] delete branch should delete stack(need aws integration)
+
+## Ideas
+- S3 bucket with different templates for different use cases(different languages) + adhoc customization / user uploaded templates
 
