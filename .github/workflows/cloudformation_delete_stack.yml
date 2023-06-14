@@ -17,8 +17,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
           aws-region: eu-north-1
 
-      - run: |
-          aws cloudformation delete-stack --stack-name $STACKNAME
-        env:
-          STACKNAME: dmitriECS-${{ github.event.ref_name }}
+      - run: echo "Deleted branch is ${{github.ref_name}}"
 
