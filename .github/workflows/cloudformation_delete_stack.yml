@@ -1,21 +1,22 @@
-name: Delete cloudformation stack on branch delete
+name: Retrieve Deleted Branch Name
+
 on:
   delete:
     branches:
-      - "*"
+      - '*'
+
 jobs:
-  delete:
+  retrieve_branch_name:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
-          aws-region: eu-north-1
+      - name: Retrieve Branch Name
+        id: branch_name
+        run: echo "::set-output name=branch_name::${{ github.ref }}"
 
-      - run: echo "Deleted branch is ${{github.ref_name}}"
+      - name: Show Deleted Branch Name
+        run: echo "The deleted branch name is ${{ steps.branch_name.outputs.branch_name }}"
 
