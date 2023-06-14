@@ -20,15 +20,5 @@ jobs:
       - run: |
           aws cloudformation delete-stack --stack-name $STACKNAME
         env:
-          STACKNAME: dmitriECS-${{ github.ref_name }}
+          STACKNAME: dmitriECS-${{ github.event.ref_name }}
 
-
-      # - name: Deploy ECS to AWS
-      #   uses: aws-actions/aws-cloudformation-github-deploy@v1
-      #   with:
-      #     name: dmitriECS-${{ github.ref_name }}
-      #     template: cloudformation_templates/01_template_layer.yaml
-      #     no-fail-on-empty-changeset: "1"
-      #     parameter-overrides: >-
-      #       pBranchName=${{ github.ref_name }}
-          
