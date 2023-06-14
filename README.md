@@ -15,6 +15,7 @@
 
 ## Ideas
 - S3 bucket with different templates for different use cases(different languages) + adhoc customization / user uploaded templates
+- add github token in the login part -> the dashboard change user on demand
 
 ## How to correctly branch
 Edit the `buildspec.yml` file at line 17 replacing the string `dmitri-main` with the string `dmitri-{new branch name without the branchets}`.
