@@ -311,7 +311,8 @@ Resources:
         OperatingSystemFamily: LINUX
       ContainerDefinitions:
         # - Image: 861507897222.dkr.ecr.eu-north-1.amazonaws.com/dmitri-dashboard
-        - Image: !GetAtt ECR.RepositoryUri
+        # - Image: !GetAtt ECR.RepositoryUri
+        - Image: 861507897222.dkr.ecr.eu-north-1.amazonaws.com/dmitri-clean
           Name: dmitri-task-definition-cf
           PortMappings: 
             - AppProtocol: http
