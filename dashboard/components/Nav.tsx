@@ -15,6 +15,7 @@ const Nav = () => {
         <li><Link href="/about" className="p-4 mx-4">About</Link></li>
       </ul>
       {status === "authenticated" ? <Logout /> : <Login />}
+      {status === "authenticated" && session?.user?.name}
     </div>
   )
 }
