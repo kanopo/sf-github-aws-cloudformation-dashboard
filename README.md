@@ -7,6 +7,7 @@
 - [ ] github actions to delete stack on branch delete
 - [ ] possibility to upload inside a repo a specific set of files(templates uploading)
 - [x] add authentication to avoid random bot s to interact with the dashboard(next-auth)
+- [ ] check typescript for next-auth, at the moment i ue ts-ignore for avoiding failure in build
 
 ## WIP
 - [ ] divide the unified ucr in many ecrs for each branch

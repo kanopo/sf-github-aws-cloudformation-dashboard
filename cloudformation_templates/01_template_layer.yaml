@@ -277,6 +277,25 @@ Resources:
     DependsOn: ALB
 
 
+  ECR:
+    Type: AWS::ECR::Repository
+    Properties: 
+      # EncryptionConfiguration: 
+      #   EncryptionConfiguration
+      # ImageScanningConfiguration: 
+      #   ImageScanningConfiguration
+      # ImageTagMutability: String
+      # LifecyclePolicy: 
+      #   LifecyclePolicy
+      RepositoryName:           
+        - !Join
+            - "."
+            - - dmitri-ECR
+              - !Ref pBranchName
+      # RepositoryPolicyText: Json
+      # Tags: 
+      #   - Tag
+
 
   ECSTaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -291,7 +310,8 @@ Resources:
         CpuArchitecture: X86_64
         OperatingSystemFamily: LINUX
       ContainerDefinitions:
-        - Image: 861507897222.dkr.ecr.eu-north-1.amazonaws.com/dmitri-dashboard
+        # - Image: 861507897222.dkr.ecr.eu-north-1.amazonaws.com/dmitri-dashboard
+        - Image: !GetAtt ECR.RepositoryUri
           Name: dmitri-task-definition-cf
           PortMappings: 
             - AppProtocol: http
