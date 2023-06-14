@@ -287,10 +287,10 @@ Resources:
       # ImageTagMutability: String
       # LifecyclePolicy: 
       #   LifecyclePolicy
-      RepositoryName:           
+      RepositoryName:
         !Join
           - "-"
-          - - dmitri-ECR
+          - - dmitri
             - !Ref pBranchName
       # RepositoryPolicyText: Json
       # Tags: 
