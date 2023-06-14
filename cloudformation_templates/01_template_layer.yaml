@@ -500,7 +500,7 @@ Resources:
               RunOrder: 1
               Configuration: 
                 ConnectionArn: arn:aws:codestar-connections:eu-north-1:861507897222:connection/3539e571-f68d-4976-924d-214a46cd5fcd
-                FullRepositoryId: kanopo/sf-github-aws-cloudformation-dashboard
+                FullRepositoryId: kanopo/gcd
                 BranchName: !Ref pBranchName
               Name: SourceAction
               OutputArtifacts:
