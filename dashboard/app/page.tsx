@@ -8,6 +8,7 @@ interface Props {
 const Page: FC<Props> = ({ }) => {
   return (
     <div>
+      <h1>DEV</h1>
       <RepoList />
     </div>
   )

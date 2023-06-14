@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import './globals.css'
 import Nav from '@/components/Nav'
+import AuthProvider from '@/components/AuthProvider'
 
 export const metadata = {
   title: 'Dashboard',
@@ -15,12 +16,14 @@ interface Props {
 const Layout = ({ children }: Props) => (
   <html lang="en">
     <body>
-      <div className="h-[8vh] flex items-center justify-center" >
-        <Nav />
-      </div>
-      <div className="min-w-full flex justify-center items-start">
-        {children}
-      </div>
+      <AuthProvider>
+        <div className="h-[8vh] flex items-center justify-center" >
+          <Nav />
+        </div>
+        <div className="min-w-full flex justify-center items-start">
+          {children}
+        </div>
+      </AuthProvider>
     </body>
   </html>
 )
