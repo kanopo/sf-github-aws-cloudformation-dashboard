@@ -288,10 +288,10 @@ Resources:
       # LifecyclePolicy: 
       #   LifecyclePolicy
       RepositoryName:           
-        - !Join
-            - "."
-            - - dmitri-ECR
-              - !Ref pBranchName
+        !Join
+          - "-"
+          - - dmitri-ECR
+            - !Ref pBranchName
       # RepositoryPolicyText: Json
       # Tags: 
       #   - Tag
