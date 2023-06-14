@@ -6,7 +6,12 @@ import { useEffect, useState } from "react"
 
 import { GitHubRepo } from "@/types/Octokit"
 
+import { useSession } from "next-auth/react"
+
 const RepoList = () => {
+  const { data: session, status } = useSession();
+  console.log(session)
+
 
   const [repos, setRepos] = useState<GitHubRepo[]>()
   const [user, setUser] = useState("")
@@ -43,28 +48,39 @@ const RepoList = () => {
     setFilteredRepos(filtered)
   }, [search])
 
+  if (status === "authenticated") {
+    if (!repos) return <div>Loading...</div>
+    return (
+      <div className="w-[80vw]">
+        {user && <h1>Repos for {user}</h1>}
 
-  if (!repos) return <div>Loading...</div>
-
-
-  return (
-    <div className="w-[80vw]">
-      {user && <h1>Repos for {user}</h1>}
-
-      <input type="text" className="w-full border-2 border-dashed p-4 my-2" placeholder="Search" value={search} onChange={(event) => { setSearch(event.target.value) }} />
+        <input type="text" className="w-full border-2 border-dashed p-4 my-2" placeholder="Search" value={search} onChange={(event) => { setSearch(event.target.value) }} />
 
 
-      {filteredRepos && filteredRepos.map((repo: GitHubRepo) => (
-        <div key={repo.id} className="border-2 border-dashed p-4 my-2">
-          <Link href={`/repos/${repo.full_name}`}>
-            <p>{repo.full_name}</p>
-            <p>{repo.description}</p>
-            <p>{repo.language}</p>
-          </Link>
-        </div>
-      ))}
-    </div>
-  )
+        {filteredRepos && filteredRepos.map((repo: GitHubRepo) => (
+          <div key={repo.id} className="border-2 border-dashed p-4 my-2">
+            <Link href={`/repos/${repo.full_name}`}>
+              <p>{repo.full_name}</p>
+              <p>{repo.description}</p>
+              <p>{repo.language}</p>
+            </Link>
+          </div>
+        ))}
+      </div>
+    )
+  }
+  else {
+    return (
+      <div>
+        <p>Not logged in</p>
+        <Link href="/api/auth/signin">Sign in</Link>
+      </div>
+    )
+  }
+
+
+
+
 }
 
 export default RepoList
