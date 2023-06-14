@@ -20,3 +20,9 @@
 ## How to correctly branch
 Edit the `buildspec.yml` file at line 17 replacing the string `dmitri-main` with the string `dmitri-{new branch name without the branchets}`.
 The bottle neck is that Amazon ECR complains when the name of the ECR is more than 24/25 chars.
+
+## How to delete a stack
+1. In GitHub actions triggher the delete process
+2. delete the branch
+
+At the moment this process is not automated
