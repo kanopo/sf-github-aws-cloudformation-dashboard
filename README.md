@@ -8,9 +8,9 @@
 - [x] add authentication to avoid random bot s to interact with the dashboard(next-auth)
 - [ ] check typescript for next-auth, at the moment i ue ts-ignore for avoiding failure in build
 - [x] divide the unified ECR in many ECRs for each branch
+- [x] github actions to delete stack on branch delete
 
 ## WIP
-- [ ] github actions to delete stack on branch delete
 
 
 ## Ideas
@@ -26,3 +26,9 @@ The bottle neck is that Amazon ECR complains when the name of the ECR is more th
 2. delete the branch
 
 At the moment this process is not automated
+
+## How to merge
+Taking into consideration having two branches, main and dev, and wanting to perform the merge into the main branch, 
+in the merge process we have a "conflict" becouse the main repo have a specific buildspec file and this file NEED to be preserved.
+
+
