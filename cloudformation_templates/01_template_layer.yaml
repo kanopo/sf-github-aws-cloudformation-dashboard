@@ -510,7 +510,7 @@ Resources:
       Role: arn:aws:iam::861507897222:role/dmitriLambdaRoleDeleteS3Object 
       Timeout: 60
 
-  LFCleanrECR:
+  LFCleanECR:
       Type: AWS::Lambda::Function
       Properties:
         Runtime: nodejs18.x
