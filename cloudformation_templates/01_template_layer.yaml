@@ -279,7 +279,7 @@ Resources:
 
   ECR:
     Type: AWS::ECR::Repository
-    DeletionPolicy: Retain
+    # DeletionPolicy: Retain
     Properties: 
       # EncryptionConfiguration: 
       #   EncryptionConfiguration
@@ -297,6 +297,13 @@ Resources:
       # Tags: 
       #   - Tag
 
+
+  CleanECR:
+    Type: Custom::cleanBucket
+    Properties: 
+      ServiceToken: !GetAtt LFCleanECR.Arn
+      ECRName: !Ref ECR
+      Region: !Ref AWS::Region
 
   ECSTaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -411,6 +418,7 @@ Resources:
       BucketName: !Ref ArtifactStoreBucket
       Region: !Ref AWS::Region
 
+
   # CleanImageBucket:
   #   Type: Custom::cleanBucket
   #   Properties: 
@@ -502,6 +510,99 @@ Resources:
       Role: arn:aws:iam::861507897222:role/dmitriLambdaRoleDeleteS3Object 
       Timeout: 60
 
+  LFCleanrECR:
+      Type: AWS::Lambda::Function
+      Properties:
+        Runtime: nodejs18.x
+        Handler: index.handler
+        Code:
+          ZipFile: |
+            const response = require("cfn-response")
+            const { ECRClient, BatchDeleteImageCommand, ListImagesCommand } = require("@aws-sdk/client-ecr")
+
+            const send = (event, context, responseStatus, responseData, physicalResourceId) => {
+              return new Promise((resolve) => {
+                const done = context.done
+                context.done = (event, context, responseStatus, responseData, physicalResourceId) => {
+                  resolve(done(event, context, responseStatus, responseData, physicalResourceId))
+                }
+                response.send(event, context, responseStatus, responseData, physicalResourceId)
+              })
+            }
+            const getImages = async (client, repositoryName) => {
+
+              const imagesResponce = await client.send(new ListImagesCommand({
+                repositoryName: repositoryName
+              }))
+
+              if (imagesResponce.imageIds.length == 0) {
+                return []
+              }
+              else {
+                return imagesResponce.imageIds
+              }
+            }
+
+
+            const deleteImages = async (client, repositoryName, imageIds) => {
+              const deleteResponce = await client.send(new BatchDeleteImageCommand({
+                repositoryName: repositoryName,
+                imageIds: imageIds
+              }))
+
+              return deleteResponce.metadata
+            }
+
+
+            exports.handler = async (event, context) => {
+              setTimeout(async (event, context) => {
+                console.log("TIMEOUT")
+                return await send(event, context, "FAILED", {
+                  body: "Lambda timeouted"
+                })
+              }, 1000 * 60) // the value is in milliseconds
+
+              if (event.RequestType == "Delete") {
+                const ecrName = event.ResourceProperties.ECRName;
+                const region = event.ResourceProperties.Region;
+
+
+                const client = new ECRClient({ region: region })
+                const imageIds = await getImages(client, ecrName)
+
+                if (imageIds.length == 0) {
+                  return await send(event, context, response.SUCCESS, {
+                    body: "Nothing to delete"
+                  })
+                }
+                else {
+                  const deleteRes = await deleteImages(client, ecrName, imageIds)
+                  if (deleteRes.statusCode != 200) {
+                    return await send(event, context, response.FAILED, {
+                      body: "Deletion failed"
+                    })
+                  } else {
+                    return await send(event, context, response.SUCCESS, {
+                      body: "Deletion completed"
+                    })
+                  }
+                }
+              } else if (event.RequestType == "Update") {
+                return await send(event, context, response.SUCCESS, {
+                  body: "Update completed"
+                })
+              } else if (event.RequestType == "Create") {
+                return await send(event, context, response.SUCCESS, {
+                  body: "Create completed"
+                })
+              }
+            }
+
+
+        KmsKeyArn: !GetAtt KMSKey.Arn
+        # WARN: need to created the following role inside the template
+        Role: arn:aws:iam::861507897222:role/dmitriECRRoleDeleteImages 
+        Timeout: 60
 
 
   CodePipeLine:
