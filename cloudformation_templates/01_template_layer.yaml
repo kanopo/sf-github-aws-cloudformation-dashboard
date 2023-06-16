@@ -299,7 +299,7 @@ Resources:
 
 
   CleanECR:
-    Type: Custom::cleanBucket
+    Type: Custom::cleanECR
     Properties: 
       ServiceToken: !GetAtt LFCleanECR.Arn
       ECRName: !Ref ECR
