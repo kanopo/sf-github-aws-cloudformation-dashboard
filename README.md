@@ -32,3 +32,11 @@ Taking into consideration having two branches, main and dev, and wanting to perf
 in the merge process we have a "conflict" becouse the main repo have a specific buildspec file and this file NEED to be preserved.
 
 
+## procedura per effettuare un nuovo deploy su creazione di nuova branch
+1. deve essere presente in main le action per il deploy on branch
+1. si modifica il nome del branch nel buildpsec per far riferimento ad un nuovo ECR
+1. si crea la nuova branch
+
+Adesso provo a rendere il bottono "crea nuova branch" un "modifica buildpsec e crea nuova branch"
+
+
