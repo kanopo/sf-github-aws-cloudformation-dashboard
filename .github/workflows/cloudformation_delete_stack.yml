@@ -5,23 +5,31 @@ on:
   #     - "*"
   workflow_dispatch:
 
+
+
 jobs:
   delete:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
-          aws-region: eu-north-1
-
-      # - run: echo "Deleted branch is ${{github.ref_name}}"
-      - run: |
-          aws cloudformation delete-stack --stack-name $STACKNAME
-        env:
-          STACKNAME: dmitriECS-${{ github.ref_name }}
-
+      - name: Hello
+        run: echo "${{ github.event.ref }} - ${{ github.event.ref_type }}"
+# jobs:
+#   delete:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#
+#       - name: Set up AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.ACCESS_KEY }}
+#           aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
+#           aws-region: eu-north-1
+#
+#       # - run: echo "Deleted branch is ${{github.ref_name}}"
+#       - run: |
+#           aws cloudformation delete-stack --stack-name $STACKNAME
+#         env:
+#           STACKNAME: dmitriECS-${{ github.ref_name }}
+#
