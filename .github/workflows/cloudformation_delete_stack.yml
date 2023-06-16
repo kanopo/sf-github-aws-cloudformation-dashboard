@@ -1,8 +1,8 @@
 name: Delete cloudformation stack on branch delete
 on:
-  # delete:
-  #   branches:
-  #     - "*"
+  delete:
+    branches:
+      - "*"
   workflow_dispatch:
 
 
