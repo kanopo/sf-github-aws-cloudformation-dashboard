@@ -23,7 +23,7 @@ phases:
       - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
       - echo "GITHUB_COMMIT_EMAIL="${GITHUB_COMMIT_EMAIL} >> ./dashboard/.env
       - echo "GITHUB_COMMIT_NAME="${GITHUB_COMMIT_NAME} >> ./dashboard/.env
-      - echo "NEXTAUTH_URL="${NEXTAUTH_URL} >> ./dashboard/.env
+      - echo "NEXTAUTH_URL="https://dev.dashboard.sandbox.soluzionifutura.it >> ./dashboard/.env
       - echo "NEXTAUTH_SECRET="${NEXTAUTH_SECRET} >> ./dashboard/.env
 
 
