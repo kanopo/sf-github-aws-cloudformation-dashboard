@@ -169,7 +169,7 @@ const Page: FC<Props> = (
         </div>
       </div>
 
-      {branches.length > 0 && <BranchList branches={branches} />}
+      {branches.length > 0 && <BranchList repoData={repo} />}
 
     </div>
   )

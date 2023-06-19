@@ -1,7 +1,6 @@
 
 import { NextRequest } from 'next/server'
 import { Octokit } from '@octokit/rest'
-import { createHash } from 'crypto'
 
 export async function GET(request: NextRequest): Promise<Response> {
   const searchParams = request.nextUrl.searchParams
