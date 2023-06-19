@@ -1,7 +1,6 @@
 import RepoList from "@/components/RepoList";
 import { FC } from "react";
 
-
 interface Props {
 }
 

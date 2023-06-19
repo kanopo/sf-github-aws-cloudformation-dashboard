@@ -21,6 +21,13 @@ const Page: FC<Props> = (
   const [branches, setBranches] = useState<Branch[]>([])
   const [newBranch, setNewBranch] = useState<string>('')
 
+  const files = [
+    "deploy.yml",
+    "delete.yml",
+  ]
+
+
+
 
 
   const updateBranches = () => {
@@ -68,15 +75,38 @@ const Page: FC<Props> = (
 
   }, [])
 
-  const createDeployScript = () => {
-    fetch("/api/actions?" + new URLSearchParams({
+  const uploadDeployScript = async () => {
+    const res = await fetch("/api/actions?" + new URLSearchParams({
       repoOwner: repoOwner,
-      repoName: repoName
+      repoName: repoName,
+      fileToDeploy: files[0],
     }), {
       method: 'POST',
     })
-      // TODO: handle error and handle finisced
-      .then(res => console.log(res))
+
+    if (res.status === 200) {
+      alert("Deploy script uploaded")
+    }
+    else {
+      alert("Something went wrong")
+    }
+
+  }
+  const uploadDeleteScript = async () => {
+    const res = await fetch("/api/actions?" + new URLSearchParams({
+      repoOwner: repoOwner,
+      repoName: repoName,
+      fileToDeploy: files[1],
+    }), {
+      method: 'POST',
+    })
+
+    if (res.status === 200) {
+      alert("Delete script uploaded")
+    }
+    else {
+      alert("Something went wrong")
+    }
 
   }
 
@@ -124,8 +154,11 @@ const Page: FC<Props> = (
       </div>
 
       <div className="min-w-full border-2 border-dashed p-2 mb-4 flex justify-between items-center">
-        <h1>Deploy github action inside main branch</h1>
-        <button onClick={createDeployScript}>DEPLOY</button>
+        <h1>Deploy scripts to github</h1>
+        <div>
+          <button onClick={uploadDeployScript}>Upload Deploy</button>
+          <button onClick={uploadDeleteScript}>Upload Delete</button>
+        </div>
       </div>
 
       <div className="min-w-full border-2 border-dashed p-2 mb-4 flex flex-wrap justify-between items-center">

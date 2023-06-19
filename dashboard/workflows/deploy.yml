@@ -1,4 +1,4 @@
-name: Deploy CloudFormation Stack
+name: Deeeploy CloudFormation Stack
 on:
   create:
     branches:
