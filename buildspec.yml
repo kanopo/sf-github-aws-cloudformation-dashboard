@@ -12,13 +12,14 @@ env:
     PATH_TO_CODE: "./code/"
     ECR_REPO: "dmitri-main"
     ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
+    AWS_REGION: "eu-north-1"
 
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${ECR}
+      - aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR}
       - REPOSITORY_URI=${ECR}/${ECR_REPO}
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
