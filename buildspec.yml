@@ -7,6 +7,7 @@ env:
     GITHUB_COMMIT_NAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_NAME"
     NEXTAUTH_URL: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_URL"
     NEXTAUTH_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_SECRET"
+    PASSWORD: "dmitri-GITHUB-Oauth-secrets:PASSWORD"
 
   variables:
     PATH_TO_CODE: "./code/"
@@ -31,6 +32,7 @@ phases:
       - echo "GITHUB_COMMIT_NAME="${GITHUB_COMMIT_NAME} >> ${PATH_TO_CODE}.env
       - echo "NEXTAUTH_URL="${NEXTAUTH_URL} >> ${PATH_TO_CODE}.env
       - echo "NEXTAUTH_SECRET="${NEXTAUTH_SECRET} >> ${PATH_TO_CODE}.env
+      - echo "PASSWORD="${PASSWORD} >> ${PATH_TO_CODE}.env
 
 
       - echo Build started on `date`
