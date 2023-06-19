@@ -8,28 +8,33 @@ env:
     NEXTAUTH_URL: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_URL"
     NEXTAUTH_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_SECRET"
 
+  variables:
+    PATH_TO_CODE: "./code/"
+    ECR_REPO: "dmitri-main"
+    ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
+
 phases:
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin 861507897222.dkr.ecr.eu-north-1.amazonaws.com
-      - REPOSITORY_URI=861507897222.dkr.ecr.eu-north-1.amazonaws.com/dmitri-main
+      - aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${ECR}
+      - REPOSITORY_URI=${ECR}/${dmitri-main}
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "NEXT_PUBLIC_SITE_URL="${NEXT_URL} >> ./dashboard/.env
-      - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ./dashboard/.env
-      - echo "GITHUB_COMMIT_EMAIL="${GITHUB_COMMIT_EMAIL} >> ./dashboard/.env
-      - echo "GITHUB_COMMIT_NAME="${GITHUB_COMMIT_NAME} >> ./dashboard/.env
-      - echo "NEXTAUTH_URL="${NEXTAUTH_URL} >> ./dashboard/.env
-      - echo "NEXTAUTH_SECRET="${NEXTAUTH_SECRET} >> ./dashboard/.env
+      - echo "NEXT_PUBLIC_SITE_URL="${NEXT_URL} >> ${PATH_TO_CODE}.env
+      - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ${PATH_TO_CODE}.env
+      - echo "GITHUB_COMMIT_EMAIL="${GITHUB_COMMIT_EMAIL} >> ${PATH_TO_CODE}.env
+      - echo "GITHUB_COMMIT_NAME="${GITHUB_COMMIT_NAME} >> ${PATH_TO_CODE}.env
+      - echo "NEXTAUTH_URL="${NEXTAUTH_URL} >> ${PATH_TO_CODE}.env
+      - echo "NEXTAUTH_SECRET="${NEXTAUTH_SECRET} >> ${PATH_TO_CODE}.env
 
 
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:latest ./dashboard
+      - docker build -t $REPOSITORY_URI:latest ${PATH_TO_CODE}
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
