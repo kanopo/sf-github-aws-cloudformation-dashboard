@@ -197,7 +197,7 @@ Resources:
       Protocol: HTTPS
       Certificates:
         - CertificateArn: !Ref HTTPSCertificate
-
+  
   HTTPSCertificate:
     Type: AWS::CertificateManager::Certificate
     Properties: 
@@ -220,18 +220,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId : !Ref pHostedZoneId
-      Name: !If
-        - dnsName
-        - !Join
-          - "."
-          - - !Ref pRepoName
-            - !Ref pDNSName
-        - !Join
-          - "."
-          - - !Ref pBranchName
-            - !Ref pRepoName
-            - !Ref pDNSName
-
+      Name: !If [dnsName, !Join [".", [!Ref pRepoName, !Ref pDNSName]], !Join [".", [!Ref pBranchName, !Ref pRepoName, !Ref pDNSName]]]
       ResourceRecords:
       - !GetAtt ALB.DNSName
       TTL: 900
