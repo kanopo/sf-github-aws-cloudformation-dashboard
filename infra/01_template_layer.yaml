@@ -201,18 +201,7 @@ Resources:
   HTTPSCertificate:
     Type: AWS::CertificateManager::Certificate
     Properties: 
-      DomainName: !If
-        - dnsName
-        - !Join
-          - "."
-          - - !Ref pRepoName
-            - !Ref pDNSName
-        - !Join
-          - "."
-          - - !Ref pBranchName
-            - !Ref pRepoName
-            - !Ref pDNSName
-
+      DomainName: !If [dnsName, !Join [".", [!Ref pRepoName, !Ref pDNSName]], !Join [".", [!Ref pBranchName, !Ref pRepoName, !Ref pDNSName]]]
       ValidationMethod: DNS
 
 
