@@ -35,5 +35,6 @@ jobs:
           parameter-overrides: >-
             pBranchName=${{ github.ref_name }}
             pRepoName=${{ github.event.repository.name }}
+            pDNSName=${{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it
 
           
