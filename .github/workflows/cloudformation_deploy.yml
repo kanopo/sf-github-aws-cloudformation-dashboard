@@ -42,4 +42,12 @@ jobs:
           sed -i "s/ECR_REPO: .*/ECR_REPO: ${{ github.event.repository.name }}-${{ github.ref_name }}/g" buildspec.yml
           cat buildspec.yml
           
+      - name: Edit URL variable inside buildspec.yml and add branch if not main
+        cmd: |
+          if [ "${{ github.ref_name }}" == "main" ]; then
+            sed -i "s/URL: .*/URL: https:\/\/${{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it/g" buildspec.yml
+          else
+            sed -i "s/URL: .*/URL: https:\/\/${{ github.event.repository.name }}-${{ github.ref_name }}.dmitri.sandbox.soluzionifutura.it/g" buildspec.yml
+          fi
+          
         

@@ -1,11 +1,9 @@
 version: 0.2
 env:
   secrets-manager:
-    NEXT_URL: "dmitri-GITHUB-Oauth-secrets:NEXT_URL"
     GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
     GITHUB_COMMIT_EMAIL: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_EMAIL"
     GITHUB_COMMIT_NAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_NAME"
-    NEXTAUTH_URL: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_URL"
     NEXTAUTH_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_SECRET"
     PASSWORD: "dmitri-GITHUB-Oauth-secrets:PASSWORD"
 
@@ -14,6 +12,7 @@ env:
     ECR_REPO: "gcd-main"
     ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
     AWS_REGION: "eu-north-1"
+    URL: "https://gcd.dmitri.sandbox.soluzionifutura.it"
 
 phases:
   pre_build:
@@ -26,11 +25,11 @@ phases:
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
     commands:
-      - echo "NEXT_PUBLIC_SITE_URL="${NEXT_URL} >> ${PATH_TO_CODE}.env
+      - echo "NEXT_PUBLIC_SITE_URL="${URL} >> ${PATH_TO_CODE}.env
       - echo "GITHUB_TOKEN="${GITHUB_TOKEN} >> ${PATH_TO_CODE}.env
       - echo "GITHUB_COMMIT_EMAIL="${GITHUB_COMMIT_EMAIL} >> ${PATH_TO_CODE}.env
       - echo "GITHUB_COMMIT_NAME="${GITHUB_COMMIT_NAME} >> ${PATH_TO_CODE}.env
-      - echo "NEXTAUTH_URL="${NEXTAUTH_URL} >> ${PATH_TO_CODE}.env
+      - echo "NEXTAUTH_URL="${URL} >> ${PATH_TO_CODE}.env
       - echo "NEXTAUTH_SECRET="${NEXTAUTH_SECRET} >> ${PATH_TO_CODE}.env
       - echo "PASSWORD="${PASSWORD} >> ${PATH_TO_CODE}.env
 
