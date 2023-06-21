@@ -201,18 +201,17 @@ Resources:
   HTTPSCertificate:
     Type: AWS::CertificateManager::Certificate
     Properties: 
-      DomainName: 
-        !If 
-          - dnsName
-          - !Join
-            - "."
-            - - !Ref pRepoName
-              - !Ref pDNSName
-          - !Join
-            - "."
-            - - !Ref pBranchName
-              - !Ref pRepoName
-              - !Ref pDNSName
+      DomainName: !If
+        - dnsName
+        - !Join
+          - "."
+          - - !Ref pRepoName
+            - !Ref pDNSName
+        - !Join
+          - "."
+          - - !Ref pBranchName
+            - !Ref pRepoName
+            - !Ref pDNSName
 
       ValidationMethod: DNS
 
@@ -221,18 +220,17 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId : !Ref pHostedZoneId
-      Name: 
-        !If 
-          - dnsName
-          - !Join
-            - "."
-            - - !Ref pRepoName
-              - !Ref pDNSName
-          - !Join
-            - "."
-            - - !Ref pBranchName
-              - !Ref pRepoName
-              - !Ref pDNSName
+      Name: !If
+        - dnsName
+        - !Join
+          - "."
+          - - !Ref pRepoName
+            - !Ref pDNSName
+        - !Join
+          - "."
+          - - !Ref pBranchName
+            - !Ref pRepoName
+            - !Ref pDNSName
 
       ResourceRecords:
       - !GetAtt ALB.DNSName
