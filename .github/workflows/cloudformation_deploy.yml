@@ -34,4 +34,6 @@ jobs:
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
             pBranchName=${{ github.ref_name }}
+            pRepoName=${{ github.repository }}
+            
           

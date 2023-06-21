@@ -1,8 +1,4 @@
 Description: "Load balancer template"
-# TODO:
-#   - aggiungere il selettore delle repo git nel template
-#   - aggiungere la creazione di ogni role e policy
-
 Parameters:
   pNumberFargateInstances:
     Description: Number of fargate instances
@@ -29,7 +25,7 @@ Parameters:
   pDNSName:
     Description: DNS name
     Type: String
-    Default: dashboard.dmitri.sandbox.soluzionifutura.it
+    Default: dmitri.sandbox.soluzionifutura.it
 
   pRepoOwner:
     Description: Repo Owner
@@ -54,8 +50,7 @@ Parameters:
     Description: ECR repo
     Type: String
     Default: dmitri-node-clean
-
-
+  
 
 Conditions:
   dnsName: !Equals
@@ -209,10 +204,14 @@ Resources:
       DomainName: 
         !If 
           - dnsName
-          - !Ref pDNSName
+          - !Join
+            - "."
+            - - !Ref pRepoName
+              - !Ref pDNSName
           - !Join
             - "."
             - - !Ref pBranchName
+              - !Ref pRepoName
               - !Ref pDNSName
 
       ValidationMethod: DNS
@@ -225,10 +224,14 @@ Resources:
       Name: 
         !If 
           - dnsName
-          - !Ref pDNSName
+          - !Join
+            - "."
+            - - !Ref pRepoName
+              - !Ref pDNSName
           - !Join
             - "."
             - - !Ref pBranchName
+              - !Ref pRepoName
               - !Ref pDNSName
 
       ResourceRecords:
@@ -597,16 +600,3 @@ Resources:
                 ServiceName: !Ref ECSService
                 FileName: images.json
               Name: DeployAction
-
-
-Outputs:
-  LoadBalancerDns:
-    Description: EndPoint URI
-    Value: 
-        !If 
-          - dnsName
-          - !Ref pDNSName
-          - !Join
-            - "."
-            - - !Ref pBranchName
-              - !Ref pDNSName
