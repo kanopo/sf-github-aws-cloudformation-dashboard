@@ -289,11 +289,10 @@ Resources:
         CpuArchitecture: X86_64
         OperatingSystemFamily: LINUX
       ContainerDefinitions:
-        - Image: 
-            !Join:
-              - "/"
-              - - !Ref pBaseECR
-                - !Ref pRepoECR
+        - Image: !Join
+          - "/"
+          - - !Ref pBaseECR
+            - !Ref pRepoECR
           Name: dmitri-task-definition-cf
           PortMappings:
             - AppProtocol: http
@@ -559,11 +558,10 @@ Resources:
               RunOrder: 1
               Configuration: 
                 ConnectionArn: arn:aws:codestar-connections:eu-north-1:861507897222:connection/3539e571-f68d-4976-924d-214a46cd5fcd
-                FullRepositoryId:
-                  !Join:
-                    - "/"
-                    - - !Ref pRepoOwner 
-                      - !Ref pRepoName
+                FullRepositoryId: !Join
+                  - "/"
+                  - - !Ref pRepoOwner 
+                    - !Ref pRepoName
                 BranchName: !Ref pBranchName
               Name: SourceAction
               OutputArtifacts:
