@@ -201,7 +201,6 @@ Resources:
   HTTPSCertificate:
     Type: AWS::CertificateManager::Certificate
     Properties: 
-      # DomainName: !If [dnsName, !Ref pDNSName, !Join [".", [!Ref pBranchName, !Ref pDNSName]]]
       DomainName: !If
         - dnsName
         - !Ref pDNSName
@@ -213,7 +212,6 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId : !Ref pHostedZoneId
-      # Name: !If [dnsName, !Ref pDNSName, !Join [".", [!Ref pBranchName, !Ref pDNSName]]]
       Name: !If
         - dnsName
         - !Ref pDNSName
