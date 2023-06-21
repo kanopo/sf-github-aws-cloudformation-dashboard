@@ -36,5 +36,10 @@ jobs:
             pBranchName=${{ github.ref_name }},
             pRepoName=${{ github.event.repository.name }},
             pDNSName=${{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it
-
+            
+      - name: edit ECR_REPO variable inside buildspec.yml
+        cmd: |
+          sed -i "s/ECR_REPO: .*/ECR_REPO: ${{ github.event.repository.name }}-${{ github.ref_name }}/g" buildspec.yml
+          cat buildspec.yml
           
+        
