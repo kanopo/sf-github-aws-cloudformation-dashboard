@@ -142,6 +142,24 @@ const Page: FC<Props> = (
 
   }
 
+  const deployMain = async () => {
+    const res = await fetch("/api/trigger?" + new URLSearchParams({
+      repoOwner: repoOwner,
+      repoName: repoName,
+      repoAction: "deploy.yml",
+    }), {
+      method: 'GET',
+    })
+
+    if (res.status === 200) {
+      alert("Deploy triggered")
+    }
+    else {
+      alert("Something went wrong")
+    }
+
+  }
+
   if (!repo) return <p>Loading...</p>
 
 
@@ -154,11 +172,16 @@ const Page: FC<Props> = (
       </div>
 
       <div className="min-w-full border-2 border-dashed p-2 mb-4 flex justify-between items-center">
-        <h1>Deploy scripts to github</h1>
+        <h1>Load github action to github</h1>
         <div>
           <button onClick={uploadDeployScript}>Upload Deploy</button>
           <button onClick={uploadDeleteScript}>Upload Delete</button>
         </div>
+      </div>
+
+      <div className="min-w-full border-2 border-dashed p-2 mb-4 flex justify-between items-center">
+        <h1>Start workflow in main</h1>
+        <button onClick={deployMain}>Deploy</button>
       </div>
 
       <div className="min-w-full border-2 border-dashed p-2 mb-4 flex flex-wrap justify-between items-center">
