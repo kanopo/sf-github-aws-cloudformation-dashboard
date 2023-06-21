@@ -11,7 +11,7 @@ env:
 
   variables:
     PATH_TO_CODE: "./code/"
-    ECR_REPO: "dmitri-main"
+    ECR_REPO: "gcd-main"
     ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
     AWS_REGION: "eu-north-1"
 

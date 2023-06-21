@@ -53,7 +53,7 @@ Parameters:
   pRepoECR:
     Description: ECR repo
     Type: String
-    Default: dmitri-clean
+    Default: dmitri-node-clean
 
 
 
