@@ -34,6 +34,9 @@ phases:
       - echo "PASSWORD="${PASSWORD} >> ${PATH_TO_CODE}.env
 
 
+      - cat ${PATH_TO_CODE}.env
+
+
       - echo Build started on `date`
       - echo Building the Docker image...
       - docker build -t $REPOSITORY_URI:latest ${PATH_TO_CODE}

@@ -33,6 +33,7 @@ jobs:
 
       - name: Create ECR with repo name
         run: |
+          echo "RUNNING: ecr create-repository --repository-name ${{ github.event.repository.name }}-${{ github.ref_name }} --region ${{ env.AWS_REGION }}"
           aws ecr create-repository --repository-name ${{ github.event.repository.name }}-${{ github.ref_name }} --region ${{ env.AWS_REGION }}
 
       - name: Replace env vars in file
