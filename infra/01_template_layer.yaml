@@ -574,113 +574,66 @@ Resources:
       Source: 
         # Auth: 
         #   SourceAuth
-        BuildSpec: !If
-          - dnsName
-          - - !Sub |
-              version: 0.2
-              env:
-                secrets-manager:
-                  GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
-                  GITHUB_COMMIT_EMAIL: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_EMAIL"
-                  GITHUB_COMMIT_NAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_NAME"
-                  NEXTAUTH_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_SECRET"
-                  PASSWORD: "dmitri-GITHUB-Oauth-secrets:PASSWORD"
+        BuildSpec: !Sub |
+          version: 0.2
+          env:
+            secrets-manager:
+              GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
+              GITHUB_COMMIT_EMAIL: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_EMAIL"
+              GITHUB_COMMIT_NAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_NAME"
+              NEXTAUTH_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_SECRET"
+              PASSWORD: "dmitri-GITHUB-Oauth-secrets:PASSWORD"
 
-                variables:
-                  PATH_TO_CODE: "./code/"
-                  ECR_REPO: "${pRepoName}-${pBranchName}"
-                  ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
-                  AWS_REGION: "eu-north-1"
-                  URL: "https://${pRepoName}.${pDNSName}"
+            variables:
+              PATH_TO_CODE: "./code/"
+              ECR_REPO: "${pRepoName}-${pBranchName}"
+              ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
+              AWS_REGION: "eu-north-1"
+              GIT_REPO: ${pRepoName}
+              GIT_BRANCH: ${pBranchName}
+              DNS_NAME: ${pDNSName}
 
-              phases:
-                pre_build:
-                  commands:
-                    - echo Logging in to Amazon ECR...
-                    - aws --version
-                    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
-                    - REPOSITORY_URI=$ECR/$ECR_REPO
+          phases:
+            pre_build:
+              commands:
+                - echo Logging in to Amazon ECR...
+                - aws --version
+                - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
+                - REPOSITORY_URI=$ECR/$ECR_REPO
+                - if [ "$GIT_BRANCH" = "main" ]; then
+                    URL = $GIT_REPO.$DNS_NAME
+                  else
+                    URL = $GIT_BRANCH.$GIT_REPO.$DNS_NAME
+                  fi
 
-                build:
-                  commands:
-                    - echo "NEXT_PUBLIC_SITE_URL="$URL >> $PATH_TO_CODE.env
-                    - echo "GITHUB_TOKEN="$GITHUB_TOKEN >> $PATH_TO_CODE.env
-                    - echo "GITHUB_COMMIT_EMAIL="$GITHUB_COMMIT_EMAIL >> $PATH_TO_CODE.env
-                    - echo "GITHUB_COMMIT_NAME="$GITHUB_COMMIT_NAME >> $PATH_TO_CODE.env
-                    - echo "NEXTAUTH_URL="$URL >> $PATH_TO_CODE.env
-                    - echo "NEXTAUTH_SECRET="$NEXTAUTH_SECRET >> $PATH_TO_CODE.env
-                    - echo "PASSWORD="$PASSWORD >> $PATH_TO_CODE.env
-
-
-                    - cat $PATH_TO_CODE.env
-
-
-                    - echo Build started on `date`
-                    - echo Building the Docker image...
-                    - docker build -t $ECR_REPO $PATH_TO_CODE
-                    - docker tag $ECR_REPO:latest $REPOSITORY_URI:latest
-                post_build:
-                  commands:
-                    - echo Build completed on `date`
-                    - echo Pushing the Docker images...
-                    - docker push $REPOSITORY_URI:latest
-                    - echo Writing image definitions file...
-                    - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:latest> images.json
-              artifacts:
-                files: images.json
-
-            - !Sub |
-              version: 0.2
-              env:
-                secrets-manager:
-                  GITHUB_TOKEN: "dmitri-GITHUB-Oauth-secrets:GITHUB_TOKEN"
-                  GITHUB_COMMIT_EMAIL: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_EMAIL"
-                  GITHUB_COMMIT_NAME: "dmitri-GITHUB-Oauth-secrets:GITHUB_COMMIT_NAME"
-                  NEXTAUTH_SECRET: "dmitri-GITHUB-Oauth-secrets:NEXTAUTH_SECRET"
-                  PASSWORD: "dmitri-GITHUB-Oauth-secrets:PASSWORD"
-
-                variables:
-                  PATH_TO_CODE: "./code/"
-                  ECR_REPO: "${pRepoName}-${pBranchName}"
-                  ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
-                  AWS_REGION: "eu-north-1"
-                  URL: "https://${pBranchName}.${pRepoName}.${pDNSName}"
-
-              phases:
-                pre_build:
-                  commands:
-                    - echo Logging in to Amazon ECR...
-                    - aws --version
-                    - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
-                    - REPOSITORY_URI=$ECR/$ECR_REPO
-
-                build:
-                  commands:
-                    - echo "NEXT_PUBLIC_SITE_URL="$URL >> $PATH_TO_CODE.env
-                    - echo "GITHUB_TOKEN="$GITHUB_TOKEN >> $PATH_TO_CODE.env
-                    - echo "GITHUB_COMMIT_EMAIL="$GITHUB_COMMIT_EMAIL >> $PATH_TO_CODE.env
-                    - echo "GITHUB_COMMIT_NAME="$GITHUB_COMMIT_NAME >> $PATH_TO_CODE.env
-                    - echo "NEXTAUTH_URL="$URL >> $PATH_TO_CODE.env
-                    - echo "NEXTAUTH_SECRET="$NEXTAUTH_SECRET >> $PATH_TO_CODE.env
-                    - echo "PASSWORD="$PASSWORD >> $PATH_TO_CODE.env
+            build:
+              commands:
+                - echo "NEXT_PUBLIC_SITE_URL="$URL >> $PATH_TO_CODE.env
+                - echo "GITHUB_TOKEN="$GITHUB_TOKEN >> $PATH_TO_CODE.env
+                - echo "GITHUB_COMMIT_EMAIL="$GITHUB_COMMIT_EMAIL >> $PATH_TO_CODE.env
+                - echo "GITHUB_COMMIT_NAME="$GITHUB_COMMIT_NAME >> $PATH_TO_CODE.env
+                - echo "NEXTAUTH_URL="$URL >> $PATH_TO_CODE.env
+                - echo "NEXTAUTH_SECRET="$NEXTAUTH_SECRET >> $PATH_TO_CODE.env
+                - echo "PASSWORD="$PASSWORD >> $PATH_TO_CODE.env
 
 
-                    - cat $PATH_TO_CODE.env
+                - cat $PATH_TO_CODE.env
 
 
-                    - echo Build started on `date`
-                    - echo Building the Docker image...
-                    - docker build -t $ECR_REPO $PATH_TO_CODE
-                    - docker tag $ECR_REPO:latest $REPOSITORY_URI:latest
-                post_build:
-                  commands:
-                    - echo Build completed on `date`
-                    - echo Pushing the Docker images...
-                    - docker push $REPOSITORY_URI:latest
-                    - echo Writing image definitions file...
-                    - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:latest> images.json
-              artifacts:
-                files: images.json
+                - echo Build started on `date`
+                - echo Building the Docker image...
+                - docker build -t $ECR_REPO $PATH_TO_CODE
+                - docker tag $ECR_REPO:latest $REPOSITORY_URI:latest
+            post_build:
+              commands:
+                - echo Build completed on `date`
+                - echo Pushing the Docker images...
+                - docker push $REPOSITORY_URI:latest
+                - echo Writing image definitions file...
+                - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:latest> images.json
+          artifacts:
+            files: images.json
+
 
 
 
