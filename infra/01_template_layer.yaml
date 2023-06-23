@@ -602,7 +602,7 @@ Resources:
                   else
                     URL="https://${pRepoName}.${pDNSName}"
                   fi
-                  echo "URL: $URL"
+                - echo "URL: $URL"
 
             build:
               commands:
