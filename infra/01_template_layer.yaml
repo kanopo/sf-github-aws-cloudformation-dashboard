@@ -598,8 +598,6 @@ Resources:
                 - aws --version
                 - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
                 - REPOSITORY_URI=$ECR/$ECR_REPO
-                - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-                - IMAGE_TAG=$COMMIT_HASH:=latest
             build:
               commands:
                 - echo "NEXT_PUBLIC_SITE_URL="$URL >> $PATH_TO_CODE.env
@@ -616,16 +614,15 @@ Resources:
 
                 - echo Build started on `date`
                 - echo Building the Docker image...
-                - docker build -t $REPOSITORY_URI:latest $PATH_TO_CODE
-                - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+                - docker build -t $ECR_REPO $PATH_TO_CODE
+                - docker tag $ECR_REPO:latest $REPOSITORY_URI:latest
             post_build:
               commands:
                 - echo Build completed on `date`
                 - echo Pushing the Docker images...
                 - docker push $REPOSITORY_URI:latest
-                - docker push $REPOSITORY_URI:$IMAGE_TAG
                 - echo Writing image definitions file...
-                - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > images.json
+                - printf '[{"name":"dmitri-task-definition-cf","imageUri":"%s"}]' $REPOSITORY_URI:latest> images.json
           artifacts:
             files: images.json
 
