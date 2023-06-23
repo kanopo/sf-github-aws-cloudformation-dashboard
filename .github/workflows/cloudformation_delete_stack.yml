@@ -3,6 +3,10 @@ on:
   delete:
     branches:
       - "*"
+# 861507897222.dkr.ecr.eu-north-1.amazonaws.com/gcd-main:latest
+      #
+
+
 
 jobs:
   delete:
@@ -20,4 +24,7 @@ jobs:
 
       - name: Delete the stack referred by the branch name
         run: aws cloudformation delete-stack --stack-name "dmitriECS-${{ github.event.ref }}"
+
+      - name: Delete AWS ECR Repo
+        run: aws ecr delete-repository --repository-name ${{ github.event.ref }} --force
 
