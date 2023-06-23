@@ -567,6 +567,11 @@ Resources:
               Name: BuildAction
               OutputArtifacts:
                 - Name: BuildArtifact
+              ParameterOverrides: !Sub |
+                {
+                  "ECR_REPO": "${pRepoName}-${pBranchName}",
+                }
+                
         - Name: Deploy
           Actions: 
             - InputArtifacts:

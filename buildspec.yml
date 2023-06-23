@@ -9,7 +9,7 @@ env:
 
   variables:
     PATH_TO_CODE: "./code/"
-    ECR_REPO: "gcd-main"
+    ECR_REPO: "def"
     ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
     AWS_REGION: "eu-north-1"
     URL: "https://gcd.dmitri.sandbox.soluzionifutura.it"
