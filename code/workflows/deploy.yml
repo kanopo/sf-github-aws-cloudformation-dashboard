@@ -1,4 +1,4 @@
-name: Deeeploy CloudFormation Stack
+name: Deploy CloudFormation Stack
 on:
   create:
     branches:
@@ -23,16 +23,17 @@ jobs:
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: dmitriVPC
-          template: cloudformation_templates/00_foundation_layer.yaml
+          template: infra/00_foundation_layer.yaml
           no-fail-on-empty-changeset: "1"
 
       - name: Deploy ECS to AWS
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
-          name: dmitriECS-${{ github.ref_name }}
-          template: cloudformation_templates/01_template_layer.yaml
+          name: dmitriECS-${{ github.event.repository.name }}-${{ github.ref_name }}
+          template: infra/01_template_layer.yaml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
-            pBranchName=${{ github.ref_name }}
-          
-
+            pBranchName=${{ github.ref_name }},
+            pRepoName=${{ github.event.repository.name }},
+            pDNSName=${{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it
+            
