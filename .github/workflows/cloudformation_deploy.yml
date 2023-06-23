@@ -35,6 +35,18 @@ jobs:
         run: |
           aws ecr create-repository --repository-name ${{ github.event.repository.name }}-${{ github.ref_name }} --region ${{ env.AWS_REGION }}
 
+      - name: Replace env vars in file
+        uses: dawidd6/action-replace-env-vars@v1
+        with: 
+          file: buildspec.yml
+          ECR_REPO: ${{ github.event.repository.name }}-${{ github.ref_name }}
+
+      - name: Replace env vars in file
+        uses: dawidd6/action-replace-env-vars@v1
+        with: 
+          file: buildspec.yml
+          URL: "https://{{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it"
+
       - name: Deploy ECS to AWS
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
@@ -42,6 +54,6 @@ jobs:
           template: infra/01_template_layer.yaml
           no-fail-on-empty-changeset: "1"
           parameter-overrides: >-
-            pBranchName=${{ github.ref/refs\/heads\// }},
+            pBranchName=${{ github.ref_name }},
             pRepoName=${{ github.event.repository.name }},
             pDNSName=${{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it
