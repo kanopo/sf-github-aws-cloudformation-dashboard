@@ -589,7 +589,6 @@ Resources:
               ECR_REPO: "${pRepoName}-${pBranchName}"
               ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
               AWS_REGION: "eu-north-1"
-              URL: "https://${Fn::If: [dnsName, '', '${pBranchName}.']}${pRepoName}.${pDNSName}"
 
           phases:
             pre_build:
@@ -598,6 +597,13 @@ Resources:
                 - aws --version
                 - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
                 - REPOSITORY_URI=$ECR/$ECR_REPO
+                - if [[ "${pBranchName}" != "main" ]]; then
+                    URL="https://${pBranchName}.${pRepoName}.${pDNSName}"
+                  else
+                    URL="https://${pRepoName}.${pDNSName}"
+                  fi
+                  echo "URL: $URL"
+
             build:
               commands:
                 - echo "NEXT_PUBLIC_SITE_URL="$URL >> $PATH_TO_CODE.env
