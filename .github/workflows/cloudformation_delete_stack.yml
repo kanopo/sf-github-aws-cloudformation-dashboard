@@ -3,10 +3,6 @@ on:
   delete:
     branches:
       - "*"
-# 861507897222.dkr.ecr.eu-north-1.amazonaws.com/gcd-main:latest
-      #
-
-
 
 jobs:
   delete:

@@ -45,11 +45,3 @@ jobs:
             pBranchName=${{ github.ref_name }},
             pRepoName=${{ github.event.repository.name }},
             pDNSName=${{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it
-            
-
-
-
-
-
-
-# pRepoECR=${{ github.event.repository.name }}-${{ github.ref_name }}
