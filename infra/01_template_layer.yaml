@@ -25,7 +25,7 @@ Parameters:
   pDNSName:
     Description: DNS name
     Type: String
-    Default: gcd.dmitri.sandbox.soluzionifutura.it
+    Default: dmitri.sandbox.soluzionifutura.it
 
   pRepoOwner:
     Description: Repo Owner
@@ -589,7 +589,7 @@ Resources:
               ECR_REPO: "${pRepoName}-${pBranchName}"
               ECR: 861507897222.dkr.ecr.eu-north-1.amazonaws.com
               AWS_REGION: "eu-north-1"
-              URL: "https://gcd.dmitri.sandbox.soluzionifutura.it"
+              URL: "https://${Fn::If: [dnsName, '', '${pBranchName}.']}${pRepoName}.${pDNSName}"
 
           phases:
             pre_build:
