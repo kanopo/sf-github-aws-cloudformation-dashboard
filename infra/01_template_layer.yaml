@@ -689,7 +689,8 @@ Resources:
                 Provider: CodeBuild
                 Version: 1
               RunOrder: 2
-              Configuration: !Ref CodeBuildProject
+              Configuration: 
+                Projectname: !Ref CodeBuildProject
                 # ProjectName: dmitri-build-node-docker
                 # PrimarySource: SourceArtifact
               Name: BuildAction
