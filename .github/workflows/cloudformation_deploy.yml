@@ -39,22 +39,6 @@ jobs:
 
 
 
-      # - name: Replace env vars in file
-      #   uses: falnyr/replace-env-vars-action@v1.3.2
-      #   env:
-      #     ECR_REPO: ${{ github.event.repository.name }}-${{ github.ref_name }}
-      #     URL: "https://{{ github.event.repository.name }}.dmitri.sandbox.soluzionifutura.it"
-      #   with:
-      #     filename: buildspec.yml
-
-      # - name: Build and push docker image to ECR
-      #   run: |
-      #     aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.AWS_ACCOUNT }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
-      #     docker build -t ${{ github.event.repository.name }}-${{ github.ref_name }} .
-      #     docker tag ${{ github.event.repository.name }}-${{ github.ref_name }}:latest ${{ env.AWS_ACCOUNT }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/gcd-main:latest
-      #     docker push ${{ env.AWS_ACCOUNT }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com/${{ github.event.repository.name }}-${{ github.ref_name }}:latest
-
-
       - name: Deploy ECS to AWS
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:

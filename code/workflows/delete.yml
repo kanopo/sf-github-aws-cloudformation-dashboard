@@ -19,8 +19,8 @@ jobs:
           aws-region: eu-north-1
 
       - name: Delete the stack referred by the branch name
-        run: aws cloudformation delete-stack --stack-name "dmitriECS-${{ github.event.ref }}"
+        run: aws cloudformation delete-stack --stack-name "dmitriECS-${{ github.event.repository.name }}-${{ github.event.ref }}"
+
 
       - name: Delete AWS ECR Repo
-        run: aws ecr delete-repository --repository-name ${{ github.event.ref }} --force
-
+        run: aws ecr delete-repository --repository-name ${{ github.event.repository.name }}-${{ github.event.ref }} --force
