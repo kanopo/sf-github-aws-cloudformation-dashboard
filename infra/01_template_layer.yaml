@@ -600,12 +600,8 @@ Resources:
                 - aws --version
                 - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR
                 - REPOSITORY_URI=$ECR/$ECR_REPO
-                - |-
-                      if [ $GIT_BRANCH == "main" ]; then
-                        URL = $GIT_REPO.$DNS_NAME
-                      else
-                        URL = $GIT_BRANCH.$GIT_REPO.$DNS_NAME
-                      fi
+                - if [ $GIT_BRANCH = "main" ]; then URL = $GIT_REPO.$DNS_NAME; fi
+                - if [ $GIT_BRANCH = "main" ]; then URL = $GIT_BRANCH.$GIT_REPO.$DNS_NAME; fi
 
             build:
               commands:
